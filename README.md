@@ -32,28 +32,28 @@ The course is intended for second- and third-year bachelor students who have com
 
 By the end of the course, students should be able to explain and compare programming-language constructs; read and write simple BNF/EBNF grammars; reason about types, scope, bindings, and evaluation; implement small programs in substantially different paradigms; and justify language and design choices using evidence from program behavior. Students must also be able to explain, test, modify, and defend their submitted code.
 
-## Semester structure
+## Semester structure and estimated schedule
 
-The Fall 2026 course has 14 weeks, including a dedicated midterm week. The intended sequence is shown below; any timetable or assessment changes will be announced in Moodle.
+The Fall 2026 course has 14 weeks, including a dedicated midterm week. The estimated schedule assumes consecutive Monday meetings beginning on **7 September 2026**. Week 8 is the midterm on **26 October 2026**, and Week 14 is scheduled for **7 December 2026**. Dates have not been adjusted for possible timetable changes, holidays, or university scheduling decisions. The official schedule and any assessment changes will be announced in Moodle.
 
-| Week | Topic | Main language or focus |
-| ---: | --- | --- |
-| 1 | Language overview and imperative baseline | Python, C++, language history and implementation |
-| 2 | Syntax, semantics, and parsing | BNF/EBNF, tokens, ASTs, tiny parser/interpreter |
-| 3 | Functional Programming I | Clojure: functions, immutability, recursion |
-| 4 | Functional Programming II | Clojure: persistent data, closures, composition, effects |
-| 5 | Logic Programming I | Prolog: facts, rules, unification, backtracking |
-| 6 | Logic Programming II | Prolog: recursion, search, constraints |
-| 7 | Declarative / relational programming | SQL: relations, joins, aggregation, subqueries |
-| 8 | Midterm and consolidation | Assessment of Weeks 1–7 |
-| 9 | Object-Oriented Programming I | Kotlin: classes, interfaces, encapsulation, polymorphism |
-| 10 | Object-Oriented Programming II / Type Systems | Kotlin: generics, nullability, data and sealed classes |
-| 11 | Concurrency I | Go: goroutines, channels, message passing |
-| 12 | Concurrency II | Go: worker pools, cancellation, coordination |
-| 13 | Event-Driven Programming | JavaScript / TypeScript: events, callbacks, event loop |
-| 14 | Asynchronous Programming and Synthesis | JavaScript / TypeScript: promises, async/await, comparison |
+| Week | Date (Monday) | Topic | Main language or focus |
+| ---: | --- | --- | --- |
+| 1 | 7 September 2026 | Language overview and imperative baseline | Python, C++, language history and implementation |
+| 2 | 14 September 2026 | Syntax, semantics, and parsing | BNF/EBNF, tokens, ASTs, tiny parser/interpreter |
+| 3 | 21 September 2026 | Functional Programming I | Clojure: functions, immutability, recursion |
+| 4 | 28 September 2026 | Functional Programming II | Clojure: persistent data, closures, composition, effects |
+| 5 | 5 October 2026 | Logic Programming I | Prolog: facts, rules, unification, backtracking |
+| 6 | 12 October 2026 | Logic Programming II | Prolog: recursion, search, constraints |
+| 7 | 19 October 2026 | Declarative / relational programming | SQL: relations, joins, aggregation, subqueries |
+| **8** | **26 October 2026** | **Midterm and consolidation** | **Assessment of Weeks 1–7** |
+| 9 | 2 November 2026 | Object-Oriented Programming I | Kotlin: classes, interfaces, encapsulation, polymorphism |
+| 10 | 9 November 2026 | Object-Oriented Programming II / Type Systems | Kotlin: generics, nullability, data and sealed classes |
+| 11 | 16 November 2026 | Concurrency I | Go: goroutines, channels, message passing |
+| 12 | 23 November 2026 | Concurrency II | Go: worker pools, cancellation, coordination |
+| 13 | 30 November 2026 | Event-Driven Programming | JavaScript / TypeScript: events, callbacks, event loop |
+| 14 | 7 December 2026 | Asynchronous Programming and Synthesis | JavaScript / TypeScript: promises, async/await, comparison |
 
-**Rust is optional supplementary material and is not part of the core curriculum.** JavaScript and TypeScript are intentionally covered at the end of the semester as the event-driven and asynchronous programming case study.
+**Rust is optional supplementary material and is not part of the core curriculum.** JavaScript and TypeScript are intentionally covered at the end of the semester as the event-driven and asynchronous programming case study. The final examination date is determined by the official university examination timetable and is not assumed to be the Week 14 meeting.
 
 ## Teaching and assessment
 
