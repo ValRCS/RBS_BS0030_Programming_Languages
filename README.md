@@ -18,16 +18,17 @@ Riga Business School · Riga Technical University (RTU)
 
 ## Current practical work
 
-### Week 3 — Functional Programming I: Clojure
+### Week 4 — Functional Programming II: Clojure
 
-Week 3 is the first major paradigm shift in BS0030. The practical is REPL-oriented and focuses on functions, immutable data, higher-order collection operations, recursion, and translating an imperative loop into a functional transformation pipeline.
+Week 4 completes the functional-programming block and is the assessed **A2: Functional Data Processing in Clojure (7%)**. The practical develops one coherent vector-of-maps program using persistent immutable updates, closures, `comp`, `->>`, aggregation, lazy sequence observation, and a functional-core / effectful-shell design.
 
-➡️ **[Open the Week 3 Lab](labs/week03/README.md)**
+➡️ **[Open the Week 4 Lab / A2](labs/week04/README.md)**
 
-The lab uses the **BS0030 Functional — Clojure** GitHub Codespace. The Week 3 project pins the Clojure language to **1.12.6**.
+The lab uses the **BS0030 Functional — Clojure** GitHub Codespace and pins Clojure to **1.12.6**.
 
 Previous practical:
 
+- [Week 3 — Functional Programming I: Clojure](labs/week03/README.md)
 - [Week 2 — Syntax, BNF/EBNF, Parsing, and ASTs](labs/week02/README.md)
 
 ## Start here: fork once, use your fork all semester
@@ -57,12 +58,12 @@ Sync new instructor material into the same fork later
 > **Codespace = disposable language laboratory.**  
 > **GitHub fork = permanent course portfolio.**
 
-### Setup for Week 3
+### Setup for Week 4
 
-If you already created your fork in Week 2, **keep using the same fork**. First use **Sync fork** / **Update branch** on GitHub so that your fork contains the new Week 3 material.
+If you already created your fork earlier in the course, **keep using the same fork**. First use **Sync fork** / **Update branch** on GitHub so that your fork contains the new Week 4 material.
 
 1. Open **your fork**, not the original `ValRCS` repository.
-2. Create a new Codespace for your fork, or rebuild an existing Codespace with the Week 3 configuration.
+2. Create a new Codespace for your fork, or reuse/rebuild an existing Codespace with the functional configuration.
 3. Select the **BS0030 Functional — Clojure** Dev Container configuration.
 4. Wait for VS Code in the browser to finish building the environment.
 5. In the terminal, from the repository root, run:
@@ -71,7 +72,7 @@ If you already created your fork in Week 2, **keep using the same fork**. First 
 bash scripts/check-functional-environment.sh
 ```
 
-6. Continue with the [Week 3 Lab](labs/week03/README.md).
+6. Continue with the [Week 4 Lab / A2](labs/week04/README.md).
 
 The functional container includes Java, the Clojure CLI, Git, and the Calva VS Code extension. The command-line Clojure REPL remains the reference environment for the lab.
 
@@ -88,20 +89,20 @@ Before starting a newly released week:
 3. resolve any conflicts before beginning new work;
 4. open or rebuild the Codespace required for that week's language environment.
 
-To reduce conflicts, instructor-owned files and student-owned files are separated where practical. In Week 3:
+To reduce conflicts, course-provided files and student-owned files are separated where practical. In Week 4:
 
 ```text
-Instructor-managed:
-labs/week03/README.md
-labs/week03/assignment.md
-labs/week03/deps.edn
-labs/week03/starter/
+Course-provided:
+labs/week04/README.md
+labs/week04/assignment.md
+labs/week04/deps.edn
+labs/week04/starter/
 
 Student-managed:
-labs/week03/work/
+labs/week04/work/
 ```
 
-Copy the Week 3 starter file into `work/` once, then make your changes only in the working copy. Do not edit instructor-managed starter files unless the lab explicitly tells you to do so.
+Copy the Week 4 starter file into `work/` once, then make your changes only in the working copy. Do not edit the course-provided starter file unless the lab explicitly tells you to do so.
 
 ## About the course
 
@@ -158,7 +159,7 @@ Currently published environments are:
 
 **Core** is used for Week 2 and supports Python, C/C++, Node.js, Git, and SQLite.
 
-**Functional** is used for Weeks 3–4 and provides Java, the Clojure CLI, Git, and Calva. Week 3 pins the Clojure language version in `labs/week03/deps.edn`.
+**Functional** is used for Weeks 3–4 and provides Java, the Clojure CLI, Git, and Calva. Weeks 3 and 4 each pin Clojure **1.12.6** in their respective `deps.edn` files.
 
 Later paradigm blocks will add their own environments for Prolog, Kotlin, Go, and JavaScript/TypeScript.
 
@@ -186,7 +187,13 @@ RBS_BS0030_Programming_Languages/
 │   │   ├── examples/
 │   │   ├── starter/
 │   │   └── work/
-│   └── week03/
+│   ├── week03/
+│   │   ├── README.md
+│   │   ├── assignment.md
+│   │   ├── deps.edn
+│   │   ├── starter/
+│   │   └── work/
+│   └── week04/
 │       ├── README.md
 │       ├── assignment.md
 │       ├── deps.edn
