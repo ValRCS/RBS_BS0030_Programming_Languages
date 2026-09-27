@@ -18,16 +18,17 @@ Riga Business School · Riga Technical University (RTU)
 
 ## Current practical work
 
-### Week 5 — Logic Programming I: Prolog
+### Week 6 — Logic Programming II: Search and Constraints
 
-Week 5 introduces logic programming through **facts, rules, queries, unification, SLD-resolution intuition, recursion, and backtracking**. The practical uses one small knowledge base to make Prolog's search behavior visible and traceable.
+Week 6 continues Prolog with **recursive lists, cycle-safe search, goal ordering, negation as failure, and CLP(FD) constraint programming**. The practical begins from the Week 5 search model and moves from generate-and-test toward constraint propagation and labeling.
 
-➡️ **[Open the Week 5 Prolog Lab](labs/week05/README.md)**
+➡️ **[Open the Week 6 Prolog Lab](labs/week06/README.md)**
 
-The lab uses the **BS0030 Logic — SWI-Prolog** GitHub Codespace. It is a guided practical preparing the search model needed for Week 6 and A3.
+The lab uses the same **BS0030 Logic — SWI-Prolog** GitHub Codespace as Week 5 and prepares the remaining foundations for A3.
 
 Previous practicals:
 
+- [Week 5 — Logic Programming I: Prolog](labs/week05/README.md)
 - [Week 4 — Functional Programming II: Clojure / A2](labs/week04/README.md)
 - [Week 3 — Functional Programming I: Clojure](labs/week03/README.md)
 - [Week 2 — Syntax, BNF/EBNF, Parsing, and ASTs](labs/week02/README.md)
@@ -59,25 +60,22 @@ Sync new instructor material into the same fork later
 > **Codespace = disposable language laboratory.**  
 > **GitHub fork = permanent course portfolio.**
 
-### Setup for Week 5
+### Setup for Week 6
 
-If you already created your fork earlier in the course, **keep using the same fork**. First use **Sync fork** / **Update branch** on GitHub so that your fork contains the new Week 5 material.
+If you already created your fork earlier in the course, **keep using the same fork**. First use **Sync fork** / **Update branch** on GitHub so that your fork contains the Week 6 material.
 
 1. Open **your fork**, not the original `ValRCS` repository.
-2. Create a new Codespace for your fork, or rebuild an existing Codespace with the logic configuration.
-3. Select the **BS0030 Logic — SWI-Prolog** Dev Container configuration.
-4. Wait for VS Code in the browser to finish building the environment.
-5. In the terminal, from the repository root, run:
+2. Open your existing logic Codespace or create/rebuild one with the logic configuration.
+3. Select **BS0030 Logic — SWI-Prolog**.
+4. From the repository root, run:
 
 ```bash
 bash scripts/check-logic-environment.sh
 ```
 
-6. Continue with the [Week 5 Prolog Lab](labs/week05/README.md).
+5. Continue with the [Week 6 Prolog Lab](labs/week06/README.md).
 
-The logic container includes SWI-Prolog and Git. The command-line `swipl` REPL is the reference environment for the lab.
-
-Local development is allowed, but local setup is the student's responsibility. Assessed code must run in the designated course Codespace.
+The logic container supports both Weeks 5 and 6. Local development is allowed, but local setup is the student's responsibility. Assessed code must run in the designated course Codespace.
 
 ## Keeping your fork up to date
 
@@ -90,19 +88,19 @@ Before starting a newly released week:
 3. resolve any conflicts before beginning new work;
 4. open or rebuild the Codespace required for that week's language environment.
 
-To reduce conflicts, course-provided files and student-owned files are separated where practical. In Week 5:
+To reduce conflicts, course-provided files and student-owned files are separated where practical. In Week 6:
 
 ```text
 Course-provided:
-labs/week05/README.md
-labs/week05/assignment.md
-labs/week05/starter/
+labs/week06/README.md
+labs/week06/assignment.md
+labs/week06/starter/
 
 Student-managed:
-labs/week05/work/
+labs/week06/work/
 ```
 
-Copy the Week 5 starter file into `work/` once, then make your changes only in the working copy. Do not edit the course-provided starter file unless the lab explicitly tells you to do so.
+Copy the Week 6 starter file into `work/` once, then make your changes only in the working copy. Do not edit the course-provided starter file unless the lab explicitly tells you to do so.
 
 ## About the course
 
@@ -199,7 +197,12 @@ RBS_BS0030_Programming_Languages/
 │   │   ├── deps.edn
 │   │   ├── starter/
 │   │   └── work/
-│   └── week05/
+│   ├── week05/
+│   │   ├── README.md
+│   │   ├── assignment.md
+│   │   ├── starter/
+│   │   └── work/
+│   └── week06/
 │       ├── README.md
 │       ├── assignment.md
 │       ├── starter/
