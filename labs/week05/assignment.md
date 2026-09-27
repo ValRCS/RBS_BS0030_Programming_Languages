@@ -2,7 +2,7 @@
 
 **BS0030 Programming Languages — Logic Programming I**
 
-Work in `labs/week05/work/week05_lab.pl`. This practical prepares the concepts used in Week 6 and A3.
+Work in `labs/week05/work/week05_lab.pl`. This practical prepares the concepts used in Week 6 and **A3: Logic and Constraint Problem in Prolog**. Treat each section as a small modeling exercise: define relations, test them with several queries, and explain the resulting search. Those are A3 skills; the actual constraint techniques are deliberately deferred to Week 6.
 
 ## Part 0 — Read the knowledge base
 
@@ -191,7 +191,9 @@ Query both with a variable. Do they describe the same intended conjunction for t
 
 Next inspect `bad_ancestor/2` in the starter. It places recursive work before useful progress. You do not need to run a query that hangs. Explain in comments why ordinary leftmost, depth-first Prolog search can recurse indefinitely before reaching the base clause.
 
-## Part 8 — Route reachability
+## Part 8 — Route reachability: the explicit bridge to Week 6
+
+This final problem is deliberately chosen to look like the beginning of a small A3-style model: **represent a domain as relations, derive new information recursively, exercise the model with multiple queries, and then analyze where the search strategy becomes inadequate.**
 
 Complete `reachable/2` for the supplied **acyclic** route graph:
 
@@ -200,22 +202,42 @@ reachable(X, Y) :- ...
 reachable(X, Y) :- ...
 ~~~
 
-Test:
+Test at least:
 
 ~~~prolog
 ?- reachable(riga, kaunas).
 ?- reachable(riga, Destination).
+?- reachable(jelgava, Destination).
+?- reachable(Start, kaunas).
 ~~~
 
-Request all destinations. Duplicates are acceptable if different proof paths in an extended graph produce the same destination.
+Request all answers where alternatives exist. Duplicates are acceptable if different proof paths in an extended graph produce the same destination.
 
-Then answer in comments: what new termination risk appears if we add:
+### Boundary experiment — introduce a cycle
+
+Now reason about this additional fact:
 
 ~~~prolog
 edge(kaunas, riga).
 ~~~
 
-Do not implement visited lists yet; that belongs naturally with the richer search material in Week 6.
+Before adding it, predict what can happen to naive depth-first recursive `reachable/2`. If you experiment with the cycle, interrupt any nonterminating query rather than waiting for it.
+
+In comments, answer:
+
+1. Why does the original two-clause relation work comfortably on the supplied acyclic graph?
+2. What search path can revisit a node after the new edge is added?
+3. Why does unification/backtracking alone not remember that a node was already visited?
+4. What extra information would a safer route-search predicate need to carry?
+5. Which part is **declarative modeling** (what reachability means), and which part is an **operational search problem** (how Prolog explores proofs)?
+
+### Stop here — this is the Week 5/6 boundary
+
+Do **not** implement the full solution with visited lists, cut, negation-as-failure, or constraints in Week 5.
+
+Bring this unresolved cycle problem into **Week 6**. The next week extends your Prolog toolkit with richer recursive/list processing, search control, and constraints. Those techniques lead directly toward **A3**, where you will be expected to construct a meaningful relational model, use search or constraints, demonstrate it with multiple queries/tests, and explain its representation and operational behavior.
+
+The point of this final task is therefore not merely “find Kaunas.” It is to discover a concrete limitation in the Week 5 program that gives us a reason to learn the Week 6 techniques.
 
 ## Part 9 — Final explanation
 
@@ -244,4 +266,4 @@ reachable/2
 
 and written traces/reflections for unification, grandparent resolution, backtracking, ordering, recursion, and route cycles.
 
-This week deliberately avoids cut, negation-as-failure, constraint programming, and visited-list graph search. Those belong to Week 6.
+Week 5 deliberately stops before cut, negation-as-failure, constraint programming, and a complete visited-list graph-search solution. By the end of the lab, however, you should already be practicing the A3 foundation: **relational modeling + recursive search + multiple queries/tests + explanation of operational behavior**. Week 6 adds the remaining Prolog tools and constraint techniques.
