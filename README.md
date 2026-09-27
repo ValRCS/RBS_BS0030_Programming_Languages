@@ -18,16 +18,17 @@ Riga Business School · Riga Technical University (RTU)
 
 ## Current practical work
 
-### Week 4 — Functional Programming II: Clojure
+### Week 5 — Logic Programming I: Prolog
 
-Week 4 completes the functional-programming block and is the assessed **A2: Functional Data Processing in Clojure (7%)**. The practical develops one coherent vector-of-maps program using persistent immutable updates, closures, `comp`, `->>`, aggregation, lazy sequence observation, and a functional-core / effectful-shell design.
+Week 5 introduces logic programming through **facts, rules, queries, unification, SLD-resolution intuition, recursion, and backtracking**. The practical uses one small knowledge base to make Prolog's search behavior visible and traceable.
 
-➡️ **[Open the Week 4 Lab / A2](labs/week04/README.md)**
+➡️ **[Open the Week 5 Prolog Lab](labs/week05/README.md)**
 
-The lab uses the **BS0030 Functional — Clojure** GitHub Codespace and pins Clojure to **1.12.6**.
+The lab uses the **BS0030 Logic — SWI-Prolog** GitHub Codespace. It is a guided practical preparing the search model needed for Week 6 and A3.
 
-Previous practical:
+Previous practicals:
 
+- [Week 4 — Functional Programming II: Clojure / A2](labs/week04/README.md)
 - [Week 3 — Functional Programming I: Clojure](labs/week03/README.md)
 - [Week 2 — Syntax, BNF/EBNF, Parsing, and ASTs](labs/week02/README.md)
 
@@ -58,23 +59,23 @@ Sync new instructor material into the same fork later
 > **Codespace = disposable language laboratory.**  
 > **GitHub fork = permanent course portfolio.**
 
-### Setup for Week 4
+### Setup for Week 5
 
-If you already created your fork earlier in the course, **keep using the same fork**. First use **Sync fork** / **Update branch** on GitHub so that your fork contains the new Week 4 material.
+If you already created your fork earlier in the course, **keep using the same fork**. First use **Sync fork** / **Update branch** on GitHub so that your fork contains the new Week 5 material.
 
 1. Open **your fork**, not the original `ValRCS` repository.
-2. Create a new Codespace for your fork, or reuse/rebuild an existing Codespace with the functional configuration.
-3. Select the **BS0030 Functional — Clojure** Dev Container configuration.
+2. Create a new Codespace for your fork, or rebuild an existing Codespace with the logic configuration.
+3. Select the **BS0030 Logic — SWI-Prolog** Dev Container configuration.
 4. Wait for VS Code in the browser to finish building the environment.
 5. In the terminal, from the repository root, run:
 
 ```bash
-bash scripts/check-functional-environment.sh
+bash scripts/check-logic-environment.sh
 ```
 
-6. Continue with the [Week 4 Lab / A2](labs/week04/README.md).
+6. Continue with the [Week 5 Prolog Lab](labs/week05/README.md).
 
-The functional container includes Java, the Clojure CLI, Git, and the Calva VS Code extension. The command-line Clojure REPL remains the reference environment for the lab.
+The logic container includes SWI-Prolog and Git. The command-line `swipl` REPL is the reference environment for the lab.
 
 Local development is allowed, but local setup is the student's responsibility. Assessed code must run in the designated course Codespace.
 
@@ -150,18 +151,17 @@ Currently published environments are:
 ```text
 .devcontainer/
 ├── core/
-│   ├── Dockerfile
-│   └── devcontainer.json
-└── functional/
-    ├── Dockerfile
-    └── devcontainer.json
+├── functional/
+└── logic/
 ```
 
 **Core** is used for Week 2 and supports Python, C/C++, Node.js, Git, and SQLite.
 
 **Functional** is used for Weeks 3–4 and provides Java, the Clojure CLI, Git, and Calva. Weeks 3 and 4 each pin Clojure **1.12.6** in their respective `deps.edn` files.
 
-Later paradigm blocks will add their own environments for Prolog, Kotlin, Go, and JavaScript/TypeScript.
+**Logic** is used for Weeks 5–6 and provides SWI-Prolog and Git.
+
+Later paradigm blocks will add their own environments for Kotlin, Go, and JavaScript/TypeScript.
 
 Students keep the same GitHub fork even when they create a new Codespace for a different language block.
 
