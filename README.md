@@ -90,20 +90,19 @@ Before starting a newly released week:
 3. resolve any conflicts before beginning new work;
 4. open or rebuild the Codespace required for that week's language environment.
 
-To reduce conflicts, course-provided files and student-owned files are separated where practical. In Week 4:
+To reduce conflicts, course-provided files and student-owned files are separated where practical. In Week 5:
 
 ```text
 Course-provided:
-labs/week04/README.md
-labs/week04/assignment.md
-labs/week04/deps.edn
-labs/week04/starter/
+labs/week05/README.md
+labs/week05/assignment.md
+labs/week05/starter/
 
 Student-managed:
-labs/week04/work/
+labs/week05/work/
 ```
 
-Copy the Week 4 starter file into `work/` once, then make your changes only in the working copy. Do not edit the course-provided starter file unless the lab explicitly tells you to do so.
+Copy the Week 5 starter file into `work/` once, then make your changes only in the working copy. Do not edit the course-provided starter file unless the lab explicitly tells you to do so.
 
 ## About the course
 
@@ -177,7 +176,8 @@ RBS_BS0030_Programming_Languages/
 │   └── functional/
 ├── scripts/
 │   ├── check-core-environment.sh
-│   └── check-functional-environment.sh
+│   ├── check-functional-environment.sh
+│   └── check-logic-environment.sh
 ├── lectures/
 ├── labs/
 │   ├── week02/
@@ -193,10 +193,15 @@ RBS_BS0030_Programming_Languages/
 │   │   ├── deps.edn
 │   │   ├── starter/
 │   │   └── work/
-│   └── week04/
+│   ├── week04/
+│   │   ├── README.md
+│   │   ├── assignment.md
+│   │   ├── deps.edn
+│   │   ├── starter/
+│   │   └── work/
+│   └── week05/
 │       ├── README.md
 │       ├── assignment.md
-│       ├── deps.edn
 │       ├── starter/
 │       └── work/
 ├── assignments/
