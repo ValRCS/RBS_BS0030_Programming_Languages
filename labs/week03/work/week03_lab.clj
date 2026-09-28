@@ -49,7 +49,7 @@
 ;; -----------------------------------------------------------------------------
 
 (defn student-names [student-coll]
-  (map (:name student-coll)))
+  (map :name student-coll))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 6 — filter
@@ -112,18 +112,18 @@
 ;; -----------------------------------------------------------------------------
 
 ;; 1. In the Python loop from assignment.md, which values are explicitly mutated?
-;; ANSWER:
+;; ANSWER: count is mutated with count += 1. x and square ar also reasigned as they pass through the loop
 ;;
 ;; 2. In your Clojure rewrite, what replaces the mutable counter and explicit
 ;;    traversal loop?
-;; ANSWER:
+;; ANSWER: filter and map are used for looping, count gives the final number so no counter is needed
 ;;
 ;; 3. Give one example from this lab where a function is passed as a value.
-;; ANSWER:
+;; ANSWER: sqare is passed to map in count-large-even-squares
 ;;
 ;; 4. Give one example of an immutable collection operation that returns a new
 ;;    value.
-;; ANSWER:
+;; ANSWER: map returns a new collection with the transformation applied to each element.
 ;;
 ;; 5. When is explicit recursion less clear than map, filter, or reduce?
-;; ANSWER:
+;; ANSWER: When the task is a common pattern like summing (reduce + numbers) is clearer that sum-recursive
