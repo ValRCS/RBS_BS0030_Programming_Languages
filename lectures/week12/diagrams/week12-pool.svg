@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+<title id="title">Worker-pool ownership</title>
+<desc id="desc">A separate coordinator waits for every worker, then closes the shared results channel.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#b73030"/></marker></defs>
+<rect width="1200" height="380" fill="white"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#242424">
+<text x="40" y="40" font-size="28" font-weight="bold">Worker-pool ownership</text>
+<path d="M260 190 L410 190" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<text x="335.0" y="178.0" font-size="20" text-anchor="middle">jobs</text>
+<path d="M760 190 L930 190" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<text x="845.0" y="178.0" font-size="20" text-anchor="middle">results</text>
+<rect x="30" y="115" width="230" height="160" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="48" y="149" font-size="26" font-weight="bold">Producer</text>
+<text x="48" y="185" font-size="22">sends jobs</text>
+<text x="48" y="214" font-size="22">closes jobs</text>
+<rect x="410" y="80" width="350" height="220" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="428" y="114" font-size="26" font-weight="bold">Fixed workers</text>
+<text x="428" y="150" font-size="22">receive jobs</text>
+<text x="428" y="179" font-size="22">send results</text>
+<text x="428" y="208" font-size="22">report Done</text>
+<rect x="930" y="115" width="240" height="160" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="948" y="149" font-size="26" font-weight="bold">Collector</text>
+<text x="948" y="185" font-size="22">receives results</text>
+<text x="948" y="214" font-size="22">owns aggregate</text>
+<text x="40" y="350" font-size="21">A separate coordinator waits for every worker, then closes the shared results channel.</text>
+</g></svg>

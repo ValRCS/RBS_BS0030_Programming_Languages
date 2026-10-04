@@ -88,3 +88,8 @@ Complete Week 6 Prolog constraints lab
 ~~~
 
 Moodle remains authoritative for announcements and submission requirements.
+
+
+## Assessed A3 specification
+
+The [A3 assignment and rubric](a3-assignment.md) extend this workshop into the syllabus portfolio task.

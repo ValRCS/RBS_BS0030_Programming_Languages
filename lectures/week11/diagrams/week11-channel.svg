@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+<title id="title">Unbuffered channel transfer</title>
+<desc id="desc">The matching send and receive synchronize. Scheduling delays do not define correctness.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#b73030"/></marker></defs>
+<rect width="1200" height="380" fill="white"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#242424">
+<text x="40" y="40" font-size="28" font-weight="bold">Unbuffered channel transfer</text>
+<path d="M390 170 L810 170" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<text x="600.0" y="158.0" font-size="20" text-anchor="middle">value transfer</text>
+<rect x="80" y="100" width="310" height="170" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="98" y="134" font-size="26" font-weight="bold">Sender goroutine</text>
+<text x="98" y="170" font-size="22">computes value</text>
+<text x="98" y="199" font-size="22">send waits if needed</text>
+<rect x="810" y="100" width="310" height="170" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="828" y="134" font-size="26" font-weight="bold">Receiver goroutine</text>
+<text x="828" y="170" font-size="22">receive waits if needed</text>
+<text x="828" y="199" font-size="22">uses received value</text>
+<text x="40" y="350" font-size="21">The matching send and receive synchronize. Scheduling delays do not define correctness.</text>
+</g></svg>

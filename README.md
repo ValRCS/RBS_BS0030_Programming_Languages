@@ -16,22 +16,28 @@ Riga Business School · Riga Technical University (RTU)
 
 [Full course syllabus](syllabus/BS0030_Programming_Languages_Syllabus_Fall_2026.md)
 
-## Current practical work
+## Weeks 5–14 materials
 
-### Week 6 — Logic Programming II: Search and Constraints
+The course schedule remains syllabus-led: SQL in Week 7, midterm in Week 8, Kotlin in Weeks 9–10, Go in Weeks 11–12, and JavaScript/TypeScript in Weeks 13–14.
 
-Week 6 continues Prolog with **recursive lists, cycle-safe search, goal ordering, negation as failure, and CLP(FD) constraint programming**. The practical begins from the Week 5 search model and moves from generate-and-test toward constraint propagation and labeling.
+| Week | Lecture | Practical |
+| --- | --- | --- |
+| 5 | [Notes](lectures/week05/lecture.md) | [Lab](labs/week05/README.md) |
+| 6 | [Notes](lectures/week06/lecture.md) | [Lab](labs/week06/README.md) |
+| 7 | [Notes](lectures/week07/lecture.md) | [Lab](labs/week07/README.md) |
+| 8 | [Notes](lectures/week08/lecture.md) | [Lab](labs/week08/README.md) |
+| 9 | [Notes](lectures/week09/lecture.md) | [Lab](labs/week09/README.md) |
+| 10 | [Notes](lectures/week10/lecture.md) | [Lab](labs/week10/README.md) |
+| 11 | [Notes](lectures/week11/lecture.md) | [Lab](labs/week11/README.md) |
+| 12 | [Notes](lectures/week12/lecture.md) | [Lab](labs/week12/README.md) |
+| 13 | [Notes](lectures/week13/lecture.md) | [Lab](labs/week13/README.md) |
+| 14 | [Notes](lectures/week14/lecture.md) | [Lab](labs/week14/README.md) |
 
-➡️ **[Open the Week 6 Prolog Lab](labs/week06/README.md)**
+[Midterm preparation](assessments/midterm-preparation.md) and [final preparation](assessments/final-preparation.md). Actual assessment questions, keys and instructor masters remain private.
 
-The lab uses the same **BS0030 Logic — SWI-Prolog** GitHub Codespace as Week 5 and prepares the remaining foundations for A3.
+Assessed specifications: [A3](labs/week06/a3-assignment.md), [A4](labs/week07/assignment.md), [A5](labs/week10/assignment.md), [A6](labs/week12/assignment.md), [A7](labs/week14/assignment.md).
 
-Previous practicals:
-
-- [Week 5 — Logic Programming I: Prolog](labs/week05/README.md)
-- [Week 4 — Functional Programming II: Clojure / A2](labs/week04/README.md)
-- [Week 3 — Functional Programming I: Clojure](labs/week03/README.md)
-- [Week 2 — Syntax, BNF/EBNF, Parsing, and ASTs](labs/week02/README.md)
+Earlier practicals: [Week 2](labs/week02/README.md), [Week 3](labs/week03/README.md), [Week 4](labs/week04/README.md).
 
 ## Start here: fork once, use your fork all semester
 
@@ -248,3 +254,4 @@ Useful official references include:
 The RTU ORTUS Moodle course is authoritative for announcements, deadlines, quizzes, grades, and official submissions. This repository provides version-controlled student materials and code.
 
 If a repository description and a current Moodle announcement differ on an assessment requirement, follow the Moodle announcement and contact the instructor if clarification is needed.
+
