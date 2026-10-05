@@ -44,7 +44,7 @@ edge(riga, sigulda).
 
 child(Child, Parent) :-
     % TODO: derive this from parent/2.
-    fail.
+    parent(Parent, Child).
 
 % ---------------------------------------------------------------------------
 % Part 2 — conjunction / resolution
@@ -52,7 +52,8 @@ child(Child, Parent) :-
 
 grandparent(Grandparent, Grandchild) :-
     % TODO: connect two parent/2 goals through an intermediate person.
-    fail.
+    parent(Grandparent, Intermediate),
+    parent(Intermediate, Grandchild).
 
 % Add your manual grandparent(alice, clara) trace here:
 %
@@ -65,11 +66,14 @@ grandparent(Grandparent, Grandchild) :-
 
 takes_programming_languages(Student) :-
     % TODO: derive from enrolled/2.
-    fail.
+    enrolled(Student, Course),
+    Course =:= bs0030.
 
 classmate(A, B) :-
     % TODO: same course, but A and B must be different. Use dif/2.
-    fail.
+    enrolled(A, Course),
+    enrolled(B, Course),
+    dif(A, B).
 
 % ---------------------------------------------------------------------------
 % Part 5 — recursion
@@ -77,11 +81,12 @@ classmate(A, B) :-
 
 ancestor(X, Y) :-
     % TODO: base case — one parent edge.
-    fail.
+    parent(X, Y).
 
 ancestor(X, Y) :-
     % TODO: recursive case — make progress through an intermediate Z.
-    fail.
+    parent(X, Z),
+    ancestor(Z, Y).
 
 % ---------------------------------------------------------------------------
 % Part 6 — backtracking through conjunction
@@ -89,7 +94,8 @@ ancestor(X, Y) :-
 
 successful_bs0030_student(Student) :-
     % TODO: Student must satisfy two goals.
-    fail.
+    passed(Student, bs0030),
+    enrolled(Student, bs0030).
 
 % Add a short backtracking trace here.
 %
