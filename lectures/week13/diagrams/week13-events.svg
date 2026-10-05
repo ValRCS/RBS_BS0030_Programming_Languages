@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+<title id="title">Events and independently registered reactions</title>
+<desc id="desc">Node EventEmitter invokes ordinary listeners synchronously. Each subscription needs cleanup.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#b73030"/></marker></defs>
+<rect width="1200" height="380" fill="white"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#242424">
+<text x="40" y="40" font-size="28" font-weight="bold">Events and independently registered reactions</text>
+<path d="M345 160 L590 125" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<text x="467.5" y="130.5" font-size="20" text-anchor="middle">payload</text>
+<path d="M345 215 L590 255" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<text x="467.5" y="223.0" font-size="20" text-anchor="middle">payload</text>
+<rect x="45" y="130" width="300" height="150" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="63" y="164" font-size="26" font-weight="bold">Event source</text>
+<text x="63" y="200" font-size="22">emits loan request</text>
+<rect x="590" y="80" width="510" height="90" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="608" y="114" font-size="26" font-weight="bold">Validation handler</text>
+<rect x="590" y="210" width="510" height="90" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="608" y="244" font-size="26" font-weight="bold">Logging handler</text>
+<text x="40" y="350" font-size="21">Node EventEmitter invokes ordinary listeners synchronously. Each subscription needs cleanup.</text>
+</g></svg>

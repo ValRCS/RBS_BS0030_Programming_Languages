@@ -1,0 +1,22 @@
+{
+  "name": "BS0030 Logic — SWI-Prolog",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "vscode",
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "postCreateCommand": "bash scripts/check-logic-environment.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.associations": {
+          "*.pl": "prolog"
+        }
+      }
+    }
+  }
+}

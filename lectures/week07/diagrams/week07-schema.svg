@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+<title id="title">Lending schema and foreign-key relationships</title>
+<desc id="desc">Each loan identifies one member and one book. A member or book may occur in many loans.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#b73030"/></marker></defs>
+<rect width="1200" height="380" fill="white"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#242424">
+<text x="40" y="40" font-size="28" font-weight="bold">Lending schema and foreign-key relationships</text>
+<path d="M460 180 L330 180" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<text x="395.0" y="168.0" font-size="20" text-anchor="middle">member_id</text>
+<path d="M740 180 L860 180" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<text x="800.0" y="168.0" font-size="20" text-anchor="middle">book_id</text>
+<rect x="40" y="100" width="290" height="180" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="58" y="134" font-size="26" font-weight="bold">member</text>
+<text x="58" y="170" font-size="22">id (primary key)</text>
+<text x="58" y="199" font-size="22">name</text>
+<rect x="460" y="100" width="280" height="180" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="478" y="134" font-size="26" font-weight="bold">loan</text>
+<text x="478" y="170" font-size="22">id (primary key)</text>
+<text x="478" y="199" font-size="22">member_id, book_id</text>
+<text x="478" y="228" font-size="22">returned</text>
+<rect x="860" y="100" width="300" height="180" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="878" y="134" font-size="26" font-weight="bold">book</text>
+<text x="878" y="170" font-size="22">id (primary key)</text>
+<text x="878" y="199" font-size="22">title, category</text>
+<text x="40" y="350" font-size="21">Each loan identifies one member and one book. A member or book may occur in many loans.</text>
+</g></svg>

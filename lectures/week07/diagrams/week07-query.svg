@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+<title id="title">Logical query reasoning</title>
+<desc id="desc">These explanatory steps do not require the engine to use this physical execution order.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#b73030"/></marker></defs>
+<rect width="1200" height="380" fill="white"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#242424">
+<text x="40" y="40" font-size="28" font-weight="bold">Logical query reasoning</text>
+<path d="M250 190 L330 190" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<path d="M550 190 L630 190" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<path d="M850 190 L930 190" stroke="#b73030" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+<rect x="30" y="100" width="220" height="180" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="48" y="134" font-size="26" font-weight="bold">FROM / JOIN</text>
+<text x="48" y="170" font-size="22">matched rows</text>
+<rect x="330" y="100" width="220" height="180" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="348" y="134" font-size="26" font-weight="bold">WHERE</text>
+<text x="348" y="170" font-size="22">selected rows</text>
+<rect x="630" y="100" width="220" height="180" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="648" y="134" font-size="26" font-weight="bold">GROUP / HAVING</text>
+<text x="648" y="170" font-size="22">grouped results</text>
+<rect x="930" y="100" width="240" height="180" rx="4" fill="#f7f5f2" stroke="#777" stroke-width="2"/>
+<text x="948" y="134" font-size="26" font-weight="bold">SELECT</text>
+<text x="948" y="170" font-size="22">DISTINCT</text>
+<text x="948" y="199" font-size="22">ORDER / LIMIT</text>
+<text x="40" y="350" font-size="21">These explanatory steps do not require the engine to use this physical execution order.</text>
+</g></svg>

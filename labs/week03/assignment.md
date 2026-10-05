@@ -21,6 +21,10 @@ The lab is deliberately incremental. Keep the REPL open and work in small steps.
 
 ## Part 0 — REPL warm-up
 
+> **Reference / help**
+> - [Learn Clojure — Syntax](https://clojure.org/guides/learn/syntax) — basic forms, evaluation, and useful REPL helpers such as `doc` and `source`.
+> - [The Reader](https://clojure.org/reference/reader) — how Clojure reads lists, vectors, maps, sets, symbols, and other forms; useful background for the Week 2 AST connection.
+
 Before editing the starter file, type these forms directly into the REPL. **Predict each result first.**
 
 ```clojure
@@ -40,6 +44,10 @@ Then answer mentally:
 ---
 
 ## Part 1 — Bindings are not assignment statements
+
+> **Reference / help**
+> - [Learn Clojure — Functions](https://clojure.org/guides/learn/functions) — see **Locals and Closures → let** for local bindings and lexical scope.
+> - [Special Forms](https://clojure.org/reference/special_forms) — the language reference for `let`, `fn`, `if`, `loop`, and `recur`.
 
 Evaluate:
 
@@ -79,6 +87,10 @@ Expected examples:
 
 ## Part 2 — Define pure functions
 
+> **Reference / help**
+> - [Learn Clojure — Functions](https://clojure.org/guides/learn/functions) — defining named functions with `defn`, parameters, and return values.
+> - [Functional Programming](https://clojure.org/about/functional_programming) — why Clojure emphasizes immutable values and functions rather than changing local variables.
+
 Complete these functions in your work file:
 
 ```clojure
@@ -107,6 +119,10 @@ Questions:
 ---
 
 ## Part 3 — Functions as values
+
+> **Reference / help**
+> - [Learn Clojure — Functions](https://clojure.org/guides/learn/functions) — first-class functions, anonymous functions with `fn`, and the compact `#(...)` syntax.
+> - Remember: passing a function means passing the function value (for example `inc`), not calling it first (for example `(inc 10)`).
 
 Complete `apply-twice`.
 
@@ -139,6 +155,24 @@ Explain why `apply-twice` is a **higher-order function**.
 
 ## Part 4 — Immutable collections
 
+> **Reference / help**
+> - [Data Structures](https://clojure.org/reference/data_structures) — official overview of Clojure's immutable/persistent lists, vectors, maps, and sets.
+> - [Learn Clojure — Sequential Collections](https://clojure.org/guides/learn/sequential_colls) — vectors, lists, `conj`, `first`, `rest`, and immutability.
+> - [Learn Clojure — Hashed Collections](https://clojure.org/guides/learn/hashed_colls) — **recommended if maps are still unfamiliar**: map literals, `assoc`, `dissoc`, `get`, keyword lookup, `contains?`, `keys`, and `vals`.
+
+A small map-operation reminder (these expressions return values; they do not mutate the original map):
+
+```clojure
+(def student {:name "Ada" :score 91})
+
+(:name student)                 ; => "Ada"   keyword lookup
+(get student :score)            ; => 91
+(assoc student :score 95)       ; => {:name "Ada", :score 95}
+(dissoc student :score)         ; => {:name "Ada"}
+(keys student)                  ; keys of the map
+(vals student)                  ; values of the map
+```
+
 The starter file contains:
 
 ```clojure
@@ -170,6 +204,10 @@ Verify that `conj` produces a new collection value rather than modifying `number
 
 ## Part 5 — `map`: transform values
 
+> **Reference / help**
+> - [Sequences](https://clojure.org/reference/sequences) — official sequence abstraction and sequence-library overview; `map` is listed under operations that process each item to create a new sequence.
+> - [Learn Clojure — Functions](https://clojure.org/guides/learn/functions) — useful when the function passed to `map` is anonymous.
+
 Complete `student-names` using `map`.
 
 Expected result:
@@ -197,6 +235,10 @@ one input element → ______________________________
 
 ## Part 6 — `filter`: select values
 
+> **Reference / help**
+> - [Sequences](https://clojure.org/reference/sequences) — `filter` selects items using a predicate.
+> - [Learn Clojure — Hashed Collections](https://clojure.org/guides/learn/hashed_colls) — keyword lookup such as `(:score student)` when the sequence contains maps.
+
 Complete `passing-students` so that it keeps students with scores at least the supplied threshold.
 
 Expected examples:
@@ -220,6 +262,10 @@ Then answer:
 ---
 
 ## Part 7 — `reduce`: combine values
+
+> **Reference / help**
+> - [Sequences](https://clojure.org/reference/sequences) — lists `reduce` among the core operations that consume a sequence to construct a result.
+> - The accumulator is passed from one reduction step to the next; it replaces the mutable running total common in imperative loops.
 
 Complete `total-score` using `reduce`.
 
@@ -245,6 +291,10 @@ Do not create a mutable running total. Let the reduction carry the accumulated v
 
 ## Part 8 — Build a pipeline
 
+> **Reference / help**
+> - [Sequences](https://clojure.org/reference/sequences) — the common abstraction behind composing `filter`, `map`, `reduce`, `count`, and related operations.
+> - [Clojure FAQ — collections and sequences](https://clojure.org/guides/faq) — useful clarification on the difference between data-structure operations such as `assoc` and sequence transformations such as `map` and `filter`.
+
 Complete `names-at-or-above` by composing operations on the student collection.
 
 Expected result:
@@ -269,6 +319,10 @@ You should be able to state the exact intermediate collection before running the
 ---
 
 ## Part 9 — Recursion
+
+> **Reference / help**
+> - [Learn Clojure — Flow Control](https://clojure.org/guides/learn/flow) — see **Recursion**, including `loop` / `recur` and the recommendation to prefer higher-order collection functions when they express the task clearly.
+> - [Sequences](https://clojure.org/reference/sequences) — definitions of `first`, `rest`, `empty?`, and the sequence abstraction used in the exercise.
 
 Complete `sum-recursive` without using `reduce` or `apply`.
 
@@ -302,6 +356,10 @@ Which expression communicates the intent of summing a collection more directly?
 
 ## Part 10 — Imperative → functional rewrite
 
+> **Reference / help**
+> - [Functional Programming](https://clojure.org/about/functional_programming) — functional iteration, immutable values, and recursive looping.
+> - [Sequences](https://clojure.org/reference/sequences) — `map`, `filter`, `reduce`, `count`, and other building blocks for replacing explicit traversal loops.
+
 Consider this Python code:
 
 ```python
@@ -331,6 +389,9 @@ For `[1 2 3 4 5 6]`, be able to show every intermediate value.
 
 ## Part 11 — Short reflection
 
+> **Reference / help**
+> - Revisit [Functional Programming](https://clojure.org/about/functional_programming) and [Data Structures](https://clojure.org/reference/data_structures) when explaining where mutation disappeared and how immutable collection operations replace it.
+
 At the bottom of your work file, answer these in comments using 1–3 sentences each:
 
 1. In the Python loop above, which values are explicitly mutated?
@@ -354,6 +415,11 @@ Complete Parts 0–11.
 ## Extension
 
 Choose one or more:
+
+> **Reference / help for the extensions**
+> - [Learn Clojure — Flow Control](https://clojure.org/guides/learn/flow) — `loop` / `recur`.
+> - [Learn Clojure — Hashed Collections](https://clojure.org/guides/learn/hashed_colls) — maps and map-building operations.
+> - [Sequences](https://clojure.org/reference/sequences) — `frequencies`, `map`, `filter`, `reduce`, and the fact that many sequence-producing functions are lazy.
 
 1. Implement `my-map` recursively for a vector or sequence.
 2. Write a higher-order function `make-threshold-predicate` that returns a predicate function.
