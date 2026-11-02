@@ -1,54 +1,37 @@
-# Week 11: Go channels: start A6
+# Week 11: Go concurrency and channels — start A6
 
-## Environment and portfolio
+## Environment
 
-Use the **BS0030 Go** Codespace configuration from your existing student fork. Sync the fork before opening or rebuilding the appropriate environment. The Core container supports SQLite and Node; the Kotlin and Go configurations support Weeks 9–10 and 11–12 respectively.
+Use the BS0030 **Go** Codespace from your student fork. Verify with `go version`. Copy [src/main.go](src/main.go) and [tests/main_test.go](tests/main_test.go) into `labs/week11/work/`. Modify the copied source; keep the supplied files unchanged for comparison.
 
-From a terminal run:
-
-```bash
-go version
-```
-
-Commit your source and explanations under `labs/week11/work/`. Markdown code blocks below are the starter source: copy the indicated block into the named file, then edit your working copy. Generated jars, executable binaries and disposable database files are not submission evidence.
-
-## Sequential baseline
-
-Create `labs/week11/work/`, save this as `main.go`, and run `go run main.go` from that folder:
-
-```go
-package main
-import "fmt"
-func main() {
-    values := []int{1, 2, 3, 4}
-    total := 0
-    for _, n := range values { total += n*n }
-    fmt.Println(total) // 30
-}
-```
-
-## Workshop sequence (90 minutes)
-
-1. **10 min:** predict the baseline and identify the sole owner of total.
-2. **20 min:** launch workers that send squared values. Collect exactly one result per input without a shared worker-written total.
-3. **15 min:** attach input indices and reconstruct input order.
-4. **20 min:** replace the known receive count with a sole-producer closed stream. Explain who closes it.
-5. **15 min:** repair a separate one-goroutine unbuffered deadlock example. Do not mix broken code into the working program.
-6. **10 min:** run the race detector and explain what it can and cannot establish.
+From `labs/week11/work/`:
 
 ```bash
+go run main.go
+GO111MODULE=off go test -v
+GO111MODULE=off go test -race -count=10
 go run -race main.go
 ```
 
-Core: correct values and a completion protocol. Standard: indexed results, closure explanation and clean race-detector evidence. Extension: contrast a mutex-protected aggregate with the message-passing aggregate.
+These module-free commands work without a `go.mod` for this introductory exercise. For PowerShell, use `$env:GO111MODULE="off"` before running `go test`. Do not infer correctness solely from passing tests: the starter's sequential placeholder intentionally returns the right values.
 
-Start A6 now; Week 12 adds a bounded pool and cancellation. Retain the sequential baseline and avoid using sleep as a completion protocol.
+## Link to Week 10
 
+Kotlin's encapsulation organizes state but does not itself make simultaneous updates safe. Go's goroutines provide independent execution; channels transfer results and coordinate completion. Distinguish **concurrency** from simultaneous **parallelism**.
 
-## Submission
+## Workshop: 90 minutes
 
-Follow [the portfolio instructions](../../submission.md). For assessed work, include a commit link, reproducible run commands, tests or observed outputs, and a short explanation of the relevant programming model. Deadlines and final administrative rules come from Moodle.
+1. **10 min:** run the sequential baseline for `[1,2,3,4]`, expecting ordered squares `[1,4,9,16]` and total `30`. Identify the sole owner of the total.
+2. **20 min:** replace the sequential placeholder in `concurrentSquares` with one goroutine per input and an unbuffered channel of `Result`. Explicitly pass index and value to each worker. Workers send; they do not mutate the total.
+3. **15 min:** collect indexed results into input order. Explain why arrival order is unspecified.
+4. **20 min:** receive exactly one result per input, including zero results for empty input. Separately discuss a single-sender stream whose sender closes its own channel. Do not let individual workers close a shared channel.
+5. **15 min:** diagnose this deadlock in a **separate scratch program**: `ch := make(chan int); ch <- 1; fmt.Println(<-ch)`. Repair using a sending goroutine or a capacity-one buffer. Do not place broken code in the assessed program.
+6. **10 min:** run tests and the race detector; explain why a clean run does not prove correctness under all schedules.
 
-## Lecture and next step
+**Core:** correct message-passing and sum. **Standard:** indices, empty input, completion explanation and race-detector evidence. **Extension:** compare collector-owned state with a mutex-protected aggregate; no speedup is required.
 
-[Week 11 lecture](../../lectures/week11/lecture.md). Week 12 extends channels into bounded worker pools, cancellation and complete pipeline lifecycles.
+## Evidence and submission
+
+Follow [portfolio instructions](../../submission.md) and Moodle deadlines. Commit completed code, tests, reproducible commands and a brief explanation of ownership, ordering, completion, and race versus deadlock.
+
+This is the Week 11 **foundation** of A6. Week 12 adds bounded worker pools, buffered channels and cancellation. See [the lecture](../../lectures/week11/lecture.md).
