@@ -22,7 +22,7 @@
 ;; -----------------------------------------------------------------------------
 
 (defn invoice-total [price quantity]
-  ;; TODO: compute price * quantity.
+  (* price quantity))
   nil)
 
 ;; -----------------------------------------------------------------------------
@@ -50,8 +50,7 @@
 ;; -----------------------------------------------------------------------------
 
 (defn student-names [student-coll]
-  ;; TODO: return the names using map.
-  nil)
+  (map (:name student-coll)))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 6 — filter
@@ -59,7 +58,7 @@
 
 (defn passing-students [student-coll threshold]
   ;; TODO: keep students whose :score is >= threshold.
-  nil)
+  (filter #(>= (:score %) threshold) student-coll))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 7 — reduce
