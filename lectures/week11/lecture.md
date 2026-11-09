@@ -6,6 +6,32 @@ BS0030 Programming Languages, Fall 2026
 
 Kotlin objects organized state. Concurrent execution makes access to that state a coordination problem.
 
+## From Kotlin to Go: state and coordination
+
+In Week 10, Kotlin classes and interfaces expressed *who may change state* and which outcomes are valid. Those contracts do not, by themselves, serialize two simultaneous callers. Go makes the coordination mechanism explicit: `go f()` starts independent execution, while channel sends and receives can establish a communication and synchronization event.
+
+| Kotlin (Week 10) | Go (Week 11) |
+| --- | --- |
+| `fun square(n: Int): Int` | `func square(n int) int` |
+| `val xs = listOf(1, 2, 3)` | `xs := []int{1, 2, 3}` |
+| `for (x in xs)` | `for _, x := range xs` |
+| Sealed outcomes / exceptions | Explicit `(value, error)` results |
+| Encapsulated mutable account | Collector-owned mutable total |
+
+The last row is a design comparison, not a claim that Kotlin cannot use message passing or that Go cannot use mutexes.
+
+## Predict before running: two timelines
+
+```text
+Sequential:  main    square(1) -> square(2) -> square(3) -> sum
+Concurrent:  main    launch A, B, C -> receive three results -> sum
+                  A  compute -> send ─┐
+                  B  compute -> send ─┼─> collector (arrival order varies)
+                  C  compute -> send ─┘
+```
+
+The **sum is deterministic** for these integer inputs because the collector receives one square per input; **arrival order is not specified**. A data race is an unsynchronized conflicting memory access; a deadlock is failure to make progress because goroutines wait indefinitely. Neither is the same as ordinary nondeterministic result arrival.
+
 ## Concurrency I with Go
 
 Week 11, BS0030 Programming Languages
@@ -252,10 +278,6 @@ Next: bounded workers, cancellation and channel coordination.
 - Sebesta 12e §§13.1–13.5.
 
 Exercise: repair the unbuffered-channel deadlock two ways.
-
-## Further reading in Sebesta
-
-Sebesta 12e §§13.1–13.5. Go semantics come from the specification and memory model.
 
 ## Next unit
 

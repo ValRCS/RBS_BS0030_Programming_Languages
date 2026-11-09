@@ -12,6 +12,49 @@ node --version && npm --version
 
 Commit your source and explanations under `labs/week13/work/`. Markdown code blocks below are the starter source: copy the indicated block into the named file, then edit your working copy. Generated jars, executable binaries and disposable database files are not submission evidence.
 
+## Integrated starter and verification
+
+Use the committed `starter/` files as the baseline: `lending.cjs` holds the pure decision, `events.cjs` holds the named event subscribers, `app.cjs` emits a local JSON fixture, and `types.ts` demonstrates typed payload validation. The tests are intentionally red until you complete the registration, disposal, and runtime guard TODOs.
+
+```bash
+node --test labs/week13/tests/*.test.cjs
+node labs/week13/starter/app.cjs
+npx --yes --package typescript@5.9.3 tsc labs/week13/starter/types.ts --strict --target ES2022 --module commonjs --outDir /tmp/week13-ts
+node /tmp/week13-ts/types.js
+```
+
+Copy the starter files into `labs/week13/work/` for your submitted implementation and adapt test import paths to your copy; do not change tests merely to hide failures. No network service or browser framework is required. The expected listener order is decision, then audit; disposal must remove both listeners.
+
+### Workshop sequence (90 minutes)
+
+1. **15 min:** run the starter and predict synchronous dispatch.
+2. **15 min:** register both listeners and implement reference-preserving cleanup.
+3. **20 min:** predict and test microtask/timer order and callback error boundaries.
+4. **20 min:** implement a runtime guard for finite integer request fields in `types.ts`.
+5. **15 min:** run tests and explain the pure core and event shell.
+6. **5 min:** preserve a Week 13 baseline commit for A7 continuation.
+
+The Week 14 A7 rubric assesses the completed application, not a separate Week 13 submission. Preserve your baseline and demonstrate the callback-to-promise refactor in the code defence.
+
+## Original minimal demonstration
+
+## Integrated starter (recommended)
+
+The committed `starter/` contains `app.cjs`, `events.cjs`, `lending.cjs`, `fixture.json` and `types.ts`. Tests in `tests/lending.test.cjs` are intentionally failing until you implement the TODOs for two named listeners and exact-reference disposal. The TypeScript guard is also intentionally incomplete.
+
+```bash
+node --test labs/week13/tests/*.test.cjs
+node labs/week13/starter/app.cjs
+npx --yes --package typescript@5.9.3 tsc labs/week13/starter/types.ts --strict --target ES2022 --module commonjs --outDir /tmp/week13-ts
+node /tmp/week13-ts/types.js
+```
+
+Complete the starter in your `work/` directory; adjust test imports to that copy. Expected event order: decision then audit; listener count after disposal: zero. Validate unknown JSON at runtime with integer checks, not a TypeScript assertion.
+
+**Revised workshop (90 minutes):** 15 min dispatch prediction; 15 min listener registration and cleanup; 20 min microtasks, timers and errors; 20 min typed payload validation; 15 min tests and pure-core explanation; 5 min Week 13 baseline commit.
+
+Week 13 establishes the A7 baseline; the assessed deliverable and 100-point rubric are in Week 14. Preserve a baseline commit so the subsequent async refactor is explainable.
+
 ## A runnable event shell
 
 Create `labs/week13/work/app.cjs`:

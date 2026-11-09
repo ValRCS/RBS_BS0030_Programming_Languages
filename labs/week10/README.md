@@ -1,47 +1,76 @@
-# Week 10: Typed outcomes and A5 completion
+# Week 10 — Typed outcomes and A5 completion
 
-## Environment and portfolio
+**Monday, 9 November 2026 · 90-minute Kotlin lab**  
+Continuation of [Week 9: Kotlin OOP model](../week09/README.md). The task is to improve the **types and public contract** of the lending account without weakening its invariant.
 
-Use the **BS0030 Kotlin** Codespace configuration from your existing student fork. Sync the fork before opening or rebuilding the appropriate environment. The Core container supports SQLite and Node; the Kotlin and Go configurations support Weeks 9–10 and 11–12 respectively.
+## Environment
 
-From a terminal run:
+Use the **BS0030 Kotlin** Codespace configuration from your existing student fork; sync your fork before opening or rebuilding it. The Core environment is not the Kotlin environment.
+
+From the repository root:
 
 ```bash
 kotlinc -version && java -version
+mkdir -p labs/week10/work
+cp labs/week10/src/Main.kt labs/week10/work/Main.kt
 ```
 
-Commit your source and explanations under `labs/week10/work/`. Markdown code blocks below are the starter source: copy the indicated block into the named file, then edit your working copy. Generated jars, executable binaries and disposable database files are not submission evidence.
+The committed [starter](src/Main.kt) deliberately contains `TODO()` placeholders for assessed work. It **compiles** as a scaffold but its `main()` will throw until the missing logic is implemented. Do **not** edit the shared `src/Main.kt`; edit **your own** `work/Main.kt`. Keep your Week 9 source in `labs/week09/work/` as the baseline for your comparison.
 
-## Continue the Week 9 model
+If you have a complete Week 9 implementation, **transfer your own methods and design** into the Week 10 working copy instead of starting over. Do not duplicate `Account` declarations by copying both complete files together.
 
-Create `labs/week10/work/` and copy your own Week 9 source there. Keep both versions for comparison. Add these value and result declarations:
+## Canonical A5 API and behavior
 
-```kotlin
-data class Member(val id: Int, val name: String)
-sealed interface BorrowResult
-data class Granted(val activeLoans: Int) : BorrowResult
-data class Rejected(val reason: String) : BorrowResult
+| Part | Requirement |
+| --- | --- |
+| Invariant | `0 <= activeLoans <= limit` at every valid observable state |
+| Policy | `LoanPolicy`, `StandardPolicy` (3), `ResearchPolicy` (5) via composition |
+| Construction | Reject a negative policy limit; keep the accepted limit fixed for this account |
+| Count | Readable `activeLoans` with a **private setter** |
+| Borrow | `BorrowResult`: `Granted(new activeLoans)` or `Rejected(nonblank reason)` |
+| Rejection | Does not mutate `activeLoans`, including for limit zero |
+| Return | `returnOne(): Boolean`; false at zero with no state change |
+| Member | `data class Member(val id: Int, val name: String)` |
+| Lookup | `findMember(id: Int): Member?`; absence is `null` |
+| Generic | `fun <T> firstOrNull(xs: List<T>): T?` |
+| Result handling | Exhaustive `when` over both sealed cases without a generic `else` |
+
+**Important:** `Granted.activeLoans` is the new count **after** a successful operation, **not** a loan ID or the old count. The `Account` must protect the counter; making its setter public defeats the invariant.
+
+## 90-minute workshop
+
+1. **15 min — model the contracts.** From Week 9 distinguish missing member (`Member?`), expected full-capacity rejection (`Rejected`), and invalid construction (`require`).
+2. **25 min — refactor.** Implement `borrow(): BorrowResult` and `returnOne(): Boolean` while preserving private mutation and both policies.
+3. **20 min — values and boundaries.** Implement nullable lookup, explain `==` versus `===` for data classes, test exact/full/zero/negative cases.
+4. **15 min — generics and evidence.** Implement `firstOrNull`; explain how `T` connects the input element type to result type `T?`.
+5. **15 min — A5 completion.** Run checks, record output, and compare OOP with one procedural/functional alternative (mutability, aliasing, failure and invariant location).
+
+## Build and run
+
+From the repository root, after implementing the TODOs:
+
+```bash
+kotlinc labs/week10/work/Main.kt -include-runtime -d /tmp/week10.jar
+java -jar /tmp/week10.jar
 ```
 
-The Granted count describes the state after the operation; it is not a persistent database loan identifier. Change borrow to return BorrowResult and handle both alternatives with an exhaustive when expression. Add a `findMember(id: Int): Member?` function over a small local collection.
+Run the supplied **behavioral contract checks** together with your implementation:
 
-## Workshop sequence (90 minutes)
+```bash
+kotlinc labs/week10/work/Main.kt labs/week10/tests/ContractChecks.kt -include-runtime -d /tmp/week10-tests.jar
+kotlin -classpath /tmp/week10-tests.jar ContractChecksKt
+```
 
-1. **15 min:** distinguish null lookup, expected rejection and invalid construction.
-2. **25 min:** refactor outcomes and update clients without exposing the setter.
-3. **20 min:** check structural equality, identity and nullable branches.
-4. **15 min:** implement a generic `firstOrNull` and explain its input/output type relationship.
-5. **15 min:** compare the Week 9 and Week 10 API and complete A5 evidence.
+See [public contract-check source](tests/ContractChecks.kt). These tests exercise normal, full, empty, zero-limit and invalid construction boundaries; nullable lookup; values; and generic return types. They do **not** replace a student's own explanatory tests or cover every possible grader case. The test build has two `main` functions, so use the explicit `ContractChecksKt` entry point shown above, **not** `java -jar` for the combined test build.
 
-Run `kotlinc labs/week10/work/Main.kt -include-runtime -d /tmp/week10.jar` then `java -jar /tmp/week10.jar`.
+A successful run ends with `Week 10 baseline contract checks passed.` If `TODO()` is still reachable, a `NotImplementedError` is expected until you implement it. Do not merely print the expected message.
 
-Core: invariant plus sealed result handling. Standard: full A5. Extension: demonstrate shallow-copy aliasing safely, or compare optional Rust ownership concepts. Rust code is not required or assessed.
+## A5 submission
 
+Complete [A5: Object-Oriented Design in Kotlin](assignment.md) (**6% of course grade**, local rubric **100 points**). Commit work in `labs/week10/work/`: source, reproducible commands, test output or screenshot, and a concise comparison of your Week 9 and Week 10 API including a type-system guarantee and a remaining runtime/domain obligation. Use the [portfolio submission instructions](../../submission.md); Moodle controls the deadline and final administrative rules. **Never commit generated JARs**.
 
-## Submission
+Core: correct encapsulated account and sealed results. Standard: all A5 requirements and boundaries. Extension: safely demonstrate shallow-copy aliasing or discuss Rust ownership (optional and not assessed).
 
-Follow [the portfolio instructions](../../submission.md). For assessed work, include a commit link, reproducible run commands, tests or observed outputs, and a short explanation of the relevant programming model. Deadlines and final administrative rules come from Moodle.
+## Lecture and next week
 
-## Lecture and next step
-
-[Week 10 lecture](../../lectures/week10/lecture.md). Week 11 asks how independently executing computations coordinate, using Go goroutines and channels.
+[Week 10 lecture notes](../../lectures/week10/lecture.md). Week 11 introduces concurrency with Go: static types and a private setter alone do not make overlapping operations atomic.

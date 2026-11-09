@@ -56,3 +56,21 @@ Follow [the portfolio instructions](../../submission.md). For assessed work, inc
 ## Lecture and next step
 
 [Week 12 lecture](../../lectures/week12/lecture.md). Week 13 contrasts these independently progressing goroutines with event-driven JavaScript callbacks.
+
+## A6 acceptance checklist
+
+Before submitting, verify these cases with tests (not only a demonstration run):
+
+| Input / condition | Required evidence |
+| --- | --- |
+| `[1,2,3,4]`, 3 workers | Correct values compared with sequential baseline |
+| Empty slice | No hang; output matches documented contract |
+| 1,000 values, 1 worker, buffer capacity 2 | No wait-before-drain deadlock; every value handled exactly once |
+| 1,000 values, 4 workers | Indexed results correct despite nondeterministic arrival order |
+| 0 workers | Explicit validation error |
+| Parent context already cancelled | Clean shutdown and documented cancellation behavior |
+| Cancellation while work is active | Producer and workers can exit, coordinator closes results, collector terminates |
+
+Run `go test -race ./...` and record the command and outcome. A race-free run does not prove deadlock freedom; use explicit completion tests with a generous timeout. Do not use `time.Sleep` to coordinate correctness.
+
+**Design explanation (short paragraph):** identify who closes `jobs`, who closes `results`, who waits for producer and workers, what happens if the collector exits early, and whether cancelled runs return partial results or an error. If using slices as messages, explain whether the backing arrays are shared.

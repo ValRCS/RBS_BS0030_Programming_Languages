@@ -261,3 +261,39 @@ Sebesta 12e §§13.2–13.5. The official Go pipelines article supplies further 
 ## Next unit
 
 Week 13 contrasts these independently progressing goroutines with event-driven JavaScript callbacks.
+
+## Worked example: from sequential baseline to bounded pool
+
+Start with the same transformation in both versions:
+
+```go
+func squareSequential(input []int) []int {
+    out := make([]int, len(input))
+    for i, n := range input { out[i] = n * n }
+    return out
+}
+```
+
+For the concurrent version, send **indexed jobs** so that arrival order need not determine output order. Use three workers and two-slot job and result channels. The complete instructor implementation is kept private; students construct the producer and coordinator in A6. The following are **fragments**, not a complete program:
+
+```go
+type Job struct { Index, Value int }
+type Result struct { Index, Value int }
+// Worker: receive Job, compute square, send Result with same Index.
+// Collector: output[r.Index] = r.Value
+```
+
+**Trace for [1, 2, 3, 4]:** results may arrive in the order 9, 1, 16, 4; indexed collection still produces [1, 4, 9, 16]. A WaitGroup accounts for worker completion; a separate coordinator closes results **after** all senders have stopped. The collector must drain while workers are still sending.
+
+**Predict before running:** What happens if the collector calls `wg.Wait()` before reading a two-slot results channel, and four results must be sent? Draw the wait cycle rather than guessing from a small successful run.
+
+**Repair:** drain results concurrently with worker execution. For early cancellation, make producer sends, worker receives and worker sends select on `ctx.Done()`; then wait for completion. Cancellation alone does not join goroutines or close channels safely.
+
+## Verification contract
+
+- Normal completion: exactly one result per input, regardless of arrival order.
+- Empty input: terminate and return an empty result.
+- One worker and many more jobs than buffer slots: terminate without deadlock.
+- Invalid worker count: reject before starting work.
+- Cancelled input: use a documented partial-result policy and wait for shutdown.
+- Compare sequential and concurrent outputs before measuring elapsed time; no speedup is required.
