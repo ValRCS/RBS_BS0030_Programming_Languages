@@ -38,6 +38,23 @@ The Week 14 A7 rubric assesses the completed application, not a separate Week 13
 
 ## Original minimal demonstration
 
+## Integrated starter (recommended)
+
+The committed `starter/` contains `app.cjs`, `events.cjs`, `lending.cjs`, `fixture.json` and `types.ts`. Tests in `tests/lending.test.cjs` are intentionally failing until you implement the TODOs for two named listeners and exact-reference disposal. The TypeScript guard is also intentionally incomplete.
+
+```bash
+node --test labs/week13/tests/*.test.cjs
+node labs/week13/starter/app.cjs
+npx --yes --package typescript@5.9.3 tsc labs/week13/starter/types.ts --strict --target ES2022 --module commonjs --outDir /tmp/week13-ts
+node /tmp/week13-ts/types.js
+```
+
+Complete the starter in your `work/` directory; adjust test imports to that copy. Expected event order: decision then audit; listener count after disposal: zero. Validate unknown JSON at runtime with integer checks, not a TypeScript assertion.
+
+**Revised workshop (90 minutes):** 15 min dispatch prediction; 15 min listener registration and cleanup; 20 min microtasks, timers and errors; 20 min typed payload validation; 15 min tests and pure-core explanation; 5 min Week 13 baseline commit.
+
+Week 13 establishes the A7 baseline; the assessed deliverable and 100-point rubric are in Week 14. Preserve a baseline commit so the subsequent async refactor is explainable.
+
 ## A runnable event shell
 
 Create `labs/week13/work/app.cjs`:
