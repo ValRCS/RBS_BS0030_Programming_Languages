@@ -20,6 +20,39 @@ Week 13, BS0030 Programming Languages
 - Identify blocking work and callback errors.
 - Distinguish TypeScript checking from runtime validation.
 
+## Comparing Week 12 Go and Week 13 JavaScript
+
+Go's worker pool uses independently scheduled goroutines and channels to coordinate results. The Node event bus instead registers functions that an event source invokes; ordinary `EventEmitter.emit()` listeners run **synchronously**, in registration order. Event-driven design does not imply concurrency, asynchronous dispatch, or a new thread. JavaScript runtimes can also use workers for parallel work, while Go can use event-driven designs.
+
+| Question | Go worker pool | Node event application |
+| --- | --- | --- |
+| Who invokes work? | Go runtime schedules goroutines | Event source invokes listeners |
+| Coordination | Channels, select, context | Event listeners, task/microtask scheduling |
+| Blocking | One blocked goroutine need not block others | Long synchronous listener delays event-loop progress |
+| Cancellation | Cooperative context propagation | Host/API-specific cancellation and cleanup |
+
+## A simplified event-loop model
+
+![Simplified event-loop diagram](diagrams/week13-event-loop.svg)
+
+Synchronous JavaScript runs to completion. In the following standalone Node example, the microtask is processed after the current stack, before the timer callback:
+
+```javascript
+console.log('A');
+queueMicrotask(() => console.log('M'));
+setTimeout(() => console.log('T'), 0);
+console.log('B');
+// A, B, M, T
+```
+
+The diagram is a teaching abstraction, not a complete description of Node phases, `process.nextTick`, or every browser scheduling rule. Timers specify eligibility, not exact execution deadlines.
+
+## One application, two weeks
+
+Week 13's library lending example registers a pure lending decision and an audit subscriber for a named `borrow-request` event. Students verify synchronous listener ordering, remove both listeners by function identity, trace a deferred callback, and validate a typed payload. Week 14 retains the event shell while introducing promise-returning local lookups, async composition, failure handling, bounded overlap, and freshness/cancellation protection.
+
+**Week 13 is the baseline, not a separate graded assignment.** The Week 14 A7 rubric assesses the completed application; keep the Week 13 commit for the code defence.
+
 ## A Node event source
 
 ```javascript
@@ -261,10 +294,6 @@ Next: promises, async/await and error composition.
 - Sebesta 12e §14.5 and §9.12.
 
 Exercise: explain why an event handler can be synchronous.
-
-## Further reading in Sebesta
-
-Sebesta 12e §14.5 for event handling and §9.12 for closures. JavaScript and TypeScript details require current official references.
 
 ## Next unit
 
