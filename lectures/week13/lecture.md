@@ -53,6 +53,37 @@ Week 13's library lending example registers a pure lending decision and an audit
 
 **Week 13 is the baseline, not a separate graded assignment.** The Week 14 A7 rubric assesses the completed application; keep the Week 13 commit for the code defence.
 
+## From Go concurrency to JavaScript events
+
+Week 12's Go workers progress independently and coordinate through channels. Node `EventEmitter.emit()` instead invokes ordinary listeners **synchronously in registration order**. Event-driven design is not automatically asynchronous or parallel; JavaScript can also use workers and Go can use event-driven patterns.
+
+| Question | Go worker pool | Node event application |
+| --- | --- | --- |
+| Invocation | Runtime schedules goroutines | Event source calls listeners |
+| Coordination | Channels, select, context | Subscriptions, callbacks, queues |
+| Blocking | One blocked goroutine need not block others | Long synchronous handler delays event-loop progress |
+| Cancellation | Context and joining | API-specific cancellation and listener cleanup |
+
+## Event-loop trace
+
+![Simplified event loop](diagrams/week13-event-loop.svg)
+
+Synchronous JavaScript runs to completion. In this standalone Node example microtasks run after the current stack and before the timer callback:
+
+```javascript
+console.log('A');
+queueMicrotask(() => console.log('M'));
+setTimeout(() => console.log('T'), 0);
+console.log('B');
+// A, B, M, T
+```
+
+The diagram is a teaching abstraction, not a complete description of Node phases or `process.nextTick`. Timer delays are not exact deadlines.
+
+## One application across Weeks 13–14
+
+Use a library lending `borrow-request` event with two named listeners: a pure lending decision and an audit log. Verify synchronous listener order, exact-reference cleanup, callback scheduling and typed input validation in Week 13. Week 14 extends this same baseline with promises, async/await, failure propagation, bounded overlap and cancellation or freshness protection. Week 13 is not a separately graded assignment: the Week 14 A7 rubric assesses the finished application.
+
 ## A Node event source
 
 ```javascript
