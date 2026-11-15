@@ -16,7 +16,7 @@ Riga Business School · Riga Technical University (RTU)
 
 [Full course syllabus](syllabus/BS0030_Programming_Languages_Syllabus_Fall_2026.md)
 
-## Weeks 5–14 materials
+## Weekly course materials
 
 The course schedule remains syllabus-led: SQL in Week 7, midterm in Week 8, Kotlin in Weeks 9–10, Go in Weeks 11–12, and JavaScript/TypeScript in Weeks 13–14.
 
@@ -37,7 +37,7 @@ The course schedule remains syllabus-led: SQL in Week 7, midterm in Week 8, Kotl
 
 Assessed specifications: [A3](labs/week06/a3-assignment.md), [A4](labs/week07/assignment.md), [A5](labs/week10/assignment.md), [A6](labs/week12/assignment.md), [A7](labs/week14/assignment.md).
 
-Earlier practicals: [Week 2](labs/week02/README.md), [Week 3](labs/week03/README.md), [Week 4](labs/week04/README.md).
+Earlier practicals: [Week 1 language-comparison demonstration](labs/week01/README.md), [Week 2](labs/week02/README.md), [Week 3](labs/week03/README.md), [Week 4](labs/week04/README.md).
 
 ## Start here: fork once, use your fork all semester
 
@@ -66,22 +66,19 @@ Sync new instructor material into the same fork later
 > **Codespace = disposable language laboratory.**  
 > **GitHub fork = permanent course portfolio.**
 
-### Setup for Week 6
+### Select the environment for the current lab
 
-If you already created your fork earlier in the course, **keep using the same fork**. First use **Sync fork** / **Update branch** on GitHub so that your fork contains the Week 6 material.
+After syncing your fork, create or reopen the Codespace appropriate for the **current week**:
 
-1. Open **your fork**, not the original `ValRCS` repository.
-2. Open your existing logic Codespace or create/rebuild one with the logic configuration.
-3. Select **BS0030 Logic — SWI-Prolog**.
-4. From the repository root, run:
+| Week(s) | Codespace configuration | Verification |
+| --- | --- | --- |
+| 1–2, 7–8, 13–14 | **BS0030 Core** | `bash scripts/check-core-environment.sh` |
+| 3–4 | **BS0030 Functional — Clojure** | `bash scripts/check-functional-environment.sh` |
+| 5–6 | **BS0030 Logic — SWI-Prolog** | `bash scripts/check-logic-environment.sh` |
+| 9–10 | **BS0030 Kotlin** | `kotlinc -version && java -version` |
+| 11–12 | **BS0030 Go** | `go version` |
 
-```bash
-bash scripts/check-logic-environment.sh
-```
-
-5. Continue with the [Week 6 Prolog Lab](labs/week06/README.md).
-
-The logic container supports both Weeks 5 and 6. Local development is allowed, but local setup is the student's responsibility. Assessed code must run in the designated course Codespace.
+The same fork works for the entire course even when the Codespaces differ. Use the per-week lab README for exact commands. Local development is permitted, but assessed programs must work in the specified course environment. Week 1 uses complete public demonstrations; the Moodle quiz remains private.
 
 ## Keeping your fork up to date
 
@@ -170,54 +167,13 @@ Students keep the same GitHub fork even when they create a new Codespace for a d
 
 ## Repository structure
 
-```text
-RBS_BS0030_Programming_Languages/
-├── README.md
-├── LICENSE
-├── syllabus/
-├── .devcontainer/
-│   ├── core/
-│   └── functional/
-├── scripts/
-│   ├── check-core-environment.sh
-│   ├── check-functional-environment.sh
-│   └── check-logic-environment.sh
-├── lectures/
-├── labs/
-│   ├── week02/
-│   │   ├── README.md
-│   │   ├── assignment.md
-│   │   ├── grammar-exercises.md
-│   │   ├── examples/
-│   │   ├── starter/
-│   │   └── work/
-│   ├── week03/
-│   │   ├── README.md
-│   │   ├── assignment.md
-│   │   ├── deps.edn
-│   │   ├── starter/
-│   │   └── work/
-│   ├── week04/
-│   │   ├── README.md
-│   │   ├── assignment.md
-│   │   ├── deps.edn
-│   │   ├── starter/
-│   │   └── work/
-│   ├── week05/
-│   │   ├── README.md
-│   │   ├── assignment.md
-│   │   ├── starter/
-│   │   └── work/
-│   └── week06/
-│       ├── README.md
-│       ├── assignment.md
-│       ├── starter/
-│       └── work/
-├── assignments/
-└── resources/
-```
+- `lectures/week05` through `lectures/week14`: published reading notes and approved diagrams; earlier lecture materials and quizzes are distributed through Moodle.
+- `labs/week01` through `labs/week14`: practical instructions, public examples, starter code or embedded code snippets, and student tasks.
+- `.devcontainer/`: five course environment definitions.
+- `scripts/`: public environment checks and Week 1 example test script.
+- `assessments/`: student-facing preparation only; assessment keys remain private.
 
-Materials are released progressively during the semester.
+Student work should be stored under each lab's `work/` directory in the student's own fork. Moodle remains the authoritative source for assessment instructions and deadlines.
 
 ## Teaching and assessment
 
