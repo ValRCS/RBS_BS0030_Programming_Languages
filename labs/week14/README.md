@@ -37,6 +37,21 @@ function lookup(id, { signal } = {}) {
 
 This fake API uses a uniform delay so timing is not part of the task. It removes the listener after settlement and clears the timer on abort. Call it inside an async function and handle that function's rejected promise at the entry point.
 
+
+## Reproducible test evidence
+
+| Case | Expected evidence |
+| --- | --- |
+| Empty IDs | Empty result, no hang |
+| Valid IDs | Correct records |
+| Invalid and mixed IDs | Explicit failures, no unhandled rejection |
+| Reversed completion order | Results associated with correct input |
+| More than two IDs | At most two active operations or justified sequential batching |
+| Abort or newer request | Clean abort settlement **or** stale display prevented |
+| Event lifecycle | Listeners removed; no duplicate handlers |
+
+Use deterministic local fixtures and assertions, not exact elapsed-time benchmarks. Timeout alone is not cancellation. See the [event-to-promise teaching scaffold](examples/event-async-demo.cjs), which does not solve the full A7.
+
 ## Workshop sequence (90 minutes)
 
 1. **15 min:** refactor a dependent callback sequence into an awaited sequence.
