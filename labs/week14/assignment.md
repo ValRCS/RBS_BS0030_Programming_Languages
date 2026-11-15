@@ -23,6 +23,8 @@ Submit working source, run instructions, result evidence and your explanation in
 | 15 | Cancellation or freshness protection with evidence of cleanup. |
 | 10 | Pure core, typed/validated payload example and comparison with two previous paradigms. |
 
+Use the [lab test evidence matrix](README.md#reproducible-test-evidence) when preparing your submission. Include reproducible run commands, assertions or observed outputs and explanation of listener cleanup, input order, bounded overlap and cancellation or freshness. The supplied teaching scaffold is not a complete A7 implementation.
+
 ## Assistance and authorship
 
 Follow the syllabus assistance policy and any stricter Moodle instructions. Disclose substantial external or AI-generated code when requested, and be able to explain every submitted part. Copying another student's assessed implementation is not permitted.
