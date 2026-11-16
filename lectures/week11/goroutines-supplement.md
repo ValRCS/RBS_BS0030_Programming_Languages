@@ -108,6 +108,165 @@ func main() {
 
 You might see only `main`, or `worker` and `main` in different orders. Do **not** infer a reliable schedule from a few runs. Also avoid using `time.Sleep(...)` as a substitute for proving that work has finished: a guessed delay is a timing assumption, not a synchronization protocol.
 
+### Memory sharing: separate stacks, one process address space
+
+![Diagram of three goroutines with separate stacks and potentially shared objects, globals, maps, slices and channels](diagrams/goroutines-memory-sharing.svg)
+
+*Conceptual model, not a physical memory map.* Every goroutine has its **own execution stack**, but the stacks and heap exist in **one process address space**. A local variable is private to its invocation **only while no other goroutine can reach it**. If a pointer to a local variable escapes, another goroutine may access the same value. Thus, *stack* does not automatically mean *inaccessible to other goroutines*, and *heap* does not automatically mean *shared*: **sharing depends on references and ownership**.
+
+In Go's standard toolchain, the compiler uses **escape analysis** to choose whether a value can live on a goroutine's stack or must live on the heap. The runtime manages stack growth and uses **garbage collection** to reclaim unreachable Go-managed heap objects. This removes most explicit `new`/`delete`-style lifetime management; it **does not** arrange locks or ensure logically correct updates. Consult the [Go garbage collector guide](https://go.dev/doc/gc-guide).
+
+| Value or location | What is private or potentially shared? | Implication |
+| --- | --- | --- |
+| Goroutine execution stack | Separate for each goroutine, but an escaped pointer may allow access to a stack-originating variable | Do not assume lexical locality guarantees isolation |
+| Plain `int` or struct without reference fields passed by value | The receiving function gets a copy of that value | Updating the copy does not change the original |
+| Pointer or captured variable | Several goroutines can refer to the same object | Conflicting accesses require coordination |
+| Slice | The slice header is copied, **not** its backing array | Modifying shared elements may race; copying elements creates independent storage |
+| Map | A map value refers to shared underlying state | Concurrent writes or reads overlapping writes need synchronization |
+| Channel | A reference to a shared communication object | Sends/receives synchronize, but referenced payloads are not deep-copied |
+| Global/package variable | Accessible to any goroutine that can reference it | Shared mutable globals require a safety strategy |
+
+For a concrete example of reference sharing **without concurrency**, the following is safe because all operations occur sequentially:
+
+```go
+// Save as slice-alias.go and run: go run slice-alias.go
+package main
+
+import "fmt"
+
+func main() {
+    original := []int{1, 2, 3}
+    alias := original // Copies the slice header, not the backing array.
+    alias[0] = 99
+    fmt.Println(original[0]) // 99: the same backing array.
+
+    independent := append([]int(nil), original...) // Copy the elements.
+    independent[0] = 7
+    fmt.Println(original[0]) // Still 99.
+}
+```
+
+This difference matters when passing a slice to a goroutine. A channel send copies the **slice value**, not its underlying elements. If the sender continues modifying those elements while the receiver reads them without coordination, the program can race. The same principle applies to pointers and maps. [Go Slices: Usage and Internals](https://go.dev/blog/slices-intro) explains the descriptor/backing-array relationship.
+
+### Why a WaitGroup is not a lock
+
+The next example intentionally contains a **data race**. Run it in a separate scratch file; it is **not** a valid solution to the Week 11 laboratory.
+
+```go
+// Save as race-counter.go; diagnose with: go run -race race-counter.go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func main() {
+    var wg sync.WaitGroup
+    count := 0
+
+    for i := 0; i < 100; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            count++ // WRONG: competing unsynchronized read-modify-write.
+        }()
+    }
+
+    wg.Wait()
+    fmt.Println(count) // NOT guaranteed to be 100.
+}
+```
+
+Although `wg.Wait()` ensures that every registered worker finishes before printing, it **does not serialize the workers' accesses to** `count`. The increment is a read-modify-write operation; racing operations can lose updates. A race detector can identify the problem during an observed execution:
+
+```bash
+go run -race race-counter.go
+```
+
+A **mutex** (see Example 8 in Section 9) protects the critical section. A `sync/atomic` counter is another suitable choice for one independent integer. When adopting **message passing**, workers instead send individual values while one collector owns the mutable total:
+
+```go
+// Save as channel-counter.go; run: go run -race channel-counter.go
+package main
+
+import "fmt"
+
+func main() {
+    results := make(chan int)
+    for i := 0; i < 100; i++ {
+        go func() { results <- 1 }()
+    }
+
+    total := 0 // Only this collecting goroutine updates total.
+    for i := 0; i < 100; i++ {
+        total += <-results
+    }
+    fmt.Println(total) // 100
+}
+```
+
+There are exactly 100 sends and 100 receives, so the collector accounts for every contribution. The result is deterministic even though scheduling is not. This is why **explicit coordination** is necessary even though Go manages execution and allocation automatically. See the [Go memory model](https://go.dev/ref/mem), [Go race detector](https://go.dev/doc/articles/race_detector), and [Mutex or Channel?](https://go.dev/wiki/MutexOrChannel).
+
+### Contrast: C++ threads and memory ownership
+
+C++ `std::thread` and Go goroutines have a similar *sharing model*: threads have separate execution stacks but normally share a process address space. A C++ thread typically corresponds to a native OS thread; a Go goroutine is multiplexed by the Go runtime. **Neither language automatically prevents a data race merely because a thread or goroutine was started.**
+
+Here is the same counter implemented with standard C++17 threads and RAII-based locking:
+
+```cpp
+// Save as mutex-counter.cpp
+#include <iostream>
+#include <mutex>
+#include <thread>
+#include <vector>
+
+int main() {
+    int count = 0;
+    std::mutex mu;
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < 100; ++i) {
+        threads.emplace_back([&count, &mu] {
+            std::lock_guard<std::mutex> lock(mu);
+            ++count;
+        });
+    }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    std::cout << count << '\n'; // 100
+}
+```
+
+Compile and run on a system with a C++ compiler and POSIX thread support:
+
+```bash
+g++ -std=c++17 -Wall -Wextra -pthread mutex-counter.cpp -o mutex-counter
+./mutex-counter
+```
+
+The lambda captures `count` and `mu` **by reference**. The mutex prevents conflicting simultaneous updates, while `join()` waits for completion *and* ensures those referenced local objects stay alive until each worker finishes. `std::lock_guard` unlocks automatically upon leaving scope. Without an appropriate synchronization mechanism, a C++ data race causes **undefined behavior**. See [cppreference: multithreaded executions and data races](https://en.cppreference.com/w/cpp/language/multithread).
+
+Do **not** oversimplify this contrast as “C++ always requires manual memory management, Go does not.” Modern C++ normally uses **RAII**, containers (`std::vector`), smart pointers (`std::unique_ptr`, `std::shared_ptr`), and (in C++20) `std::jthread`, whose destructor joins an associated joinable thread. C++ makes lifetime management more explicit; Go provides automatic reclamation for Go-managed memory. Crucially, **`std::shared_ptr` protects shared ownership of an object's lifetime, not concurrent mutation of the object itself**. The pointer's reference-counting machinery is not a general-purpose lock. See [cppreference: shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr) and [cppreference: jthread](https://en.cppreference.com/w/cpp/thread/jthread).
+
+| Concern | Go goroutines | C++ `std::thread` (with modern C++ idioms) |
+| --- | --- | --- |
+| Worker execution | Goroutines scheduled by Go runtime on OS threads | Generally native OS threads |
+| Memory access | Shared process address space; own goroutine stack | Shared process address space; own thread stack |
+| Heap/object lifetime | Escape analysis and Go runtime garbage collection | RAII, automatic storage, containers, smart pointers or explicit allocation |
+| Shared mutable state | Requires synchronization | Requires synchronization |
+| Critical-section protection | `sync.Mutex` | `std::mutex`, often `std::lock_guard` |
+| Simple atomic counter | `sync/atomic` | `std::atomic` |
+| Completion | Channel operations or `sync.WaitGroup` | `join()`, futures, `std::jthread` |
+| Data race rule | Invalid program; see Go's memory-model guarantees and race detector | Undefined behavior under the C++ memory model |
+
+**Fundamental distinction for BS0030:** *Memory lifetime safety* (not accessing objects after their lifetime) and *concurrency correctness* (coordinating conflicting operations) are **different problems**. Garbage collection in Go does not provide mutual exclusion, and RAII or `std::shared_ptr` in C++ does not make shared object state thread-safe.
+
+**Check your understanding:** (1) If two goroutines receive copies of the same slice, are their backing arrays necessarily independent? **No.** (2) Does `wg.Wait()` make unsynchronized increments safe? **No.** (3) If a C++ `shared_ptr` keeps an object alive, are concurrent modifications to that object automatically safe? **No.**
+
+
 ## 4. A channel transfers values and coordinates activities
 
 A **channel** is a typed conduit through which goroutines send and receive values. `make(chan int)` creates an **unbuffered** channel of integers. In `ch <- 9`, the arrow points into the channel; in `value := <-ch`, the arrow points from the channel. Sending to an unbuffered channel requires a corresponding receiver, and receiving requires a corresponding sender. The communication therefore gives us both data transfer and a synchronization event.
