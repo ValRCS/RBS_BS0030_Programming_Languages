@@ -30,6 +30,10 @@ Kotlin's encapsulation organizes state but does not itself make simultaneous upd
 
 **Core:** correct message-passing and sum. **Standard:** indices, empty input, completion explanation and race-detector evidence. **Extension:** compare collector-owned state with a mutex-protected aggregate; no speedup is required.
 
+## Optional deeper reading
+
+For detailed explanations of goroutine lifetimes, blocking channels, indexed messages, race conditions, deadlocks and the Go memory model, read the [Week 11 Goroutines supplement](../../lectures/week11/goroutines-supplement.md). Its independent examples reinforce the principles; complete the laboratory TODOs yourself. Sections 13–17 are advanced and not required for the Week 11 practical.
+
 ## Evidence and submission
 
 Follow [portfolio instructions](../../submission.md) and Moodle deadlines. Commit completed code, tests, reproducible commands and a brief explanation of ownership, ordering, completion, and race versus deadlock.
