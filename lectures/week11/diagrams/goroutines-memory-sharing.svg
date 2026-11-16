@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Go goroutine memory: separate stacks, shared address space</title>
+  <desc id="desc">Three goroutines have separate execution stacks. They run in one process and may all reference shared heap objects, global variables, and channels. Arrows indicate possible references and communication, not automatic access or memory isolation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="960" height="540" rx="12" fill="#ffffff"/>
+  <text x="36" y="43" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#152c40">What memory do goroutines share?</text>
+  <rect x="24" y="62" width="912" height="446" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="44" y="88" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#273d51">One Go process — one address space</text>
+  <text x="44" y="111" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#475569">Each goroutine has its own execution stack; objects can be shared through references.</text>
+
+  <g fill="#e1effe" stroke="#6699c8" stroke-width="1.8">
+    <rect x="50" y="138" width="263" height="122" rx="10"/>
+    <rect x="349" y="138" width="263" height="122" rx="10"/>
+    <rect x="648" y="138" width="263" height="122" rx="10"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" text-anchor="middle" fill="#20547d">
+    <text x="181" y="166" font-weight="700" font-size="18">Goroutine A</text>
+    <text x="480" y="166" font-weight="700" font-size="18">Goroutine B</text>
+    <text x="779" y="166" font-weight="700" font-size="18">Goroutine C</text>
+  </g>
+  <g fill="#ffffff" stroke="#91b6d9">
+    <rect x="74" y="181" width="215" height="60" rx="7"/>
+    <rect x="373" y="181" width="215" height="60" rx="7"/>
+    <rect x="672" y="181" width="215" height="60" rx="7"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" text-anchor="middle" fill="#2d5579">
+    <text x="181" y="203" font-size="15" font-weight="700">Own stack</text>
+    <text x="181" y="222" font-size="12">Function frames · local values</text>
+    <text x="480" y="203" font-size="15" font-weight="700">Own stack</text>
+    <text x="480" y="222" font-size="12">Function frames · local values</text>
+    <text x="779" y="203" font-size="15" font-weight="700">Own stack</text>
+    <text x="779" y="222" font-size="12">Function frames · local values</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2.2" stroke-dasharray="6 5" fill="none" marker-end="url(#arrow)">
+    <path d="M181 260 L181 338"/>
+    <path d="M480 260 L480 338"/>
+    <path d="M779 260 L779 338"/>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="52" y="341" width="385" height="101" rx="9" fill="#e5f4e8" stroke="#5c9d74" stroke-width="1.8"/>
+    <text x="244" y="369" font-size="18" font-weight="700" text-anchor="middle" fill="#225b38">Potentially shared data</text>
+    <text x="244" y="395" font-size="15" text-anchor="middle" fill="#2c6944">Heap objects · referenced arrays / maps</text>
+    <text x="244" y="417" font-size="13" text-anchor="middle" fill="#2c6944">Globals · escaped local variables</text>
+
+    <rect x="523" y="341" width="385" height="101" rx="9" fill="#fef0dc" stroke="#c6954d" stroke-width="1.8"/>
+    <text x="715" y="369" font-size="18" font-weight="700" text-anchor="middle" fill="#82501d">Channels / synchronization</text>
+    <text x="715" y="395" font-size="15" text-anchor="middle" fill="#815624">Send and receive values · coordinate access</text>
+    <text x="715" y="417" font-size="13" text-anchor="middle" fill="#815624">A channel does not deep-copy referenced data</text>
+  </g>
+
+  <text x="480" y="472" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" text-anchor="middle" fill="#334155">Sharing is about reachable objects, not merely stack versus heap.</text>
+  <text x="480" y="492" font-family="Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" fill="#475569">Mutable shared data needs synchronization; automatic garbage collection does not provide it.</text>
+  <text x="480" y="526" font-family="Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#64748b">Conceptual illustration; actual stack / heap placement is selected by the compiler.</text>
+</svg>
