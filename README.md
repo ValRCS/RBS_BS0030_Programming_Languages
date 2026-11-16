@@ -28,7 +28,7 @@ The course schedule remains syllabus-led: SQL in Week 7, midterm in Week 8, Kotl
 | 8 | [Notes](lectures/week08/lecture.md) | [Lab](labs/week08/README.md) |
 | 9 | [Notes](lectures/week09/lecture.md) | [Lab](labs/week09/README.md) |
 | 10 | [Notes](lectures/week10/lecture.md) | [Lab](labs/week10/README.md) |
-| 11 | [Notes](lectures/week11/lecture.md) | [Lab](labs/week11/README.md) |
+| 11 | [Notes](lectures/week11/lecture.md) · [Goroutines supplement](lectures/week11/goroutines-supplement.md) | [Lab](labs/week11/README.md) |
 | 12 | [Notes](lectures/week12/lecture.md) | [Lab](labs/week12/README.md) |
 | 13 | [Notes](lectures/week13/lecture.md) | [Lab](labs/week13/README.md) |
 | 14 | [Notes](lectures/week14/lecture.md) | [Lab](labs/week14/README.md) |
