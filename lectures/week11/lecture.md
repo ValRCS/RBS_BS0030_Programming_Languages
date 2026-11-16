@@ -2,6 +2,8 @@
 
 BS0030 Programming Languages, Fall 2026
 
+> **Further study:** [Understanding Goroutines in Go — detailed tutorial](goroutines-supplement.md) (optional; examples, synchronization, failure modes and official references).
+
 ## Continuity
 
 Kotlin objects organized state. Concurrent execution makes access to that state a coordination problem.
