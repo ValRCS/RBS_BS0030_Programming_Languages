@@ -47,6 +47,30 @@ A **goroutine** is a function executing independently in the same process addres
 
 The ordinary call `square(3)` computes a value and returns it to its caller. In contrast, `go square(3)` begins the call in a new goroutine. It does **not** return a handle or `square`'s return value to the caller. Arguments and the function value are evaluated when the `go` statement is executed; the actual function body runs independently. [Go specification: Go statements](https://go.dev/ref/spec#Go_statements).
 
+### How goroutines abstract execution
+
+![Diagram showing goroutines scheduled by the Go runtime onto OS threads, which the operating system schedules onto CPU cores](diagrams/goroutines-execution-abstraction.svg)
+
+*The arrows show conceptual layers, not fixed assignments. A goroutine is not normally pinned to one OS thread, and an OS thread is not permanently assigned to one CPU core.*
+
+**The key distinction:** Go abstracts away much of the **low-level scheduling and thread management** of concurrent execution, **not the developer's responsibility for correct concurrency**. You decide which operations can proceed independently and start them with `go`. The Go runtime schedules runnable goroutines onto OS threads; the operating system schedules threads onto available logical CPU cores. Normally, you neither choose nor need to know the thread or core on which any particular goroutine executes.
+
+| Developer specifies | Go runtime manages | Operating system / hardware handles |
+| --- | --- | --- |
+| Which functions run as goroutines; communication, result collection, completion, ownership, and synchronization | Scheduling runnable goroutines across OS threads; managing goroutine stacks and blocking/resumption | Scheduling OS threads onto logical CPUs; executing machine instructions |
+
+This separation clarifies three programming-language ideas:
+
+1. **Abstraction:** `go f()` expresses an independently executing computation without requiring explicit thread creation or affinity management.
+2. **Implementation:** Go's scheduler multiplexes goroutines onto OS threads. Multiple goroutines may share threads at different times; work may run in parallel when resources permit.
+3. **Correctness:** The programmer must still coordinate values and lifetimes—for example with **channels** to communicate results, `sync.WaitGroup` to await completion, or `sync.Mutex` to protect shared mutable state. Goroutines do not automatically prevent races, deadlocks, or leaks.
+
+**Configuration is not pinning:** `GOMAXPROCS` limits how many OS threads may execute user-level Go code simultaneously; it does not select a core or thread for an individual goroutine. Advanced APIs such as `runtime.LockOSThread` exist for special interoperability cases, but they are not the usual model for application concurrency. **Concurrency** describes the independent activities you structure; **parallelism** describes whether some work executes simultaneously.
+
+**Check your understanding:** If five goroutines are started on a machine with two available cores, must five OS threads be created? **No.** The Go runtime can multiplex them across fewer or more threads as circumstances require. Should you wait for the goroutines by guessing an amount of sleep time? **No.** Coordinate completion explicitly.
+
+**Authoritative references:** [Effective Go — Goroutines and channels](https://go.dev/doc/effective_go#concurrency), [Go FAQ — goroutines](https://go.dev/doc/faq#goroutines), [runtime package — GOMAXPROCS](https://pkg.go.dev/runtime#GOMAXPROCS), and [Go memory model](https://go.dev/ref/mem).
+
 ### Example 1 — ordinary calls and asynchronous execution
 
 ```go
