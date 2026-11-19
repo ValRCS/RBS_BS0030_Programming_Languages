@@ -31,11 +31,11 @@
 
 (defn update-score [student new-score]
   ;; TODO: return a new student map with :score replaced.
-  nil)
+  (assoc student :score new-score))
 
 (defn record-attempt [student]
   ;; TODO: increment [:stats :attempts] without mutating the input map.
-  nil)
+  (update-in student [:stats :attempts] inc))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 2 — closure
@@ -44,7 +44,8 @@
 (defn minimum-score-checker [minimum]
   ;; TODO: return a function that accepts one student map and checks
   ;; whether (:score student) is >= the captured minimum.
-  nil)
+  (fn [student]
+    (>= (:score student) minimum)))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 3 — composition
@@ -54,14 +55,10 @@
   ;; TODO: define with comp.
   ;; Required behavior:
   ;; " Ada Lovelace " -> "ADA LOVELACE"
-  identity)
-
-;; -----------------------------------------------------------------------------
-;; Part 4 — main thread-last pipeline
-;; -----------------------------------------------------------------------------
+  (comp str/upper-case str/trim))
 
 (defn eligible-names [student-coll minimum]
-  ;; TODO:
+  ;; TODO: 
   ;; 1. keep active students
   ;; 2. keep students accepted by (minimum-score-checker minimum)
   ;; 3. extract names
@@ -70,7 +67,14 @@
   ;; 6. return a vector
   ;;
   ;; Use ->> for the main pipeline.
-  nil)
+  (let [checker (minimum-score-checker minimum)]
+    (->> student-coll
+         (filter :active)
+         (filter checker)
+         (map :name)
+         (map normalize-name)
+         sort
+         vec)))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 5 — aggregation and pure report construction
@@ -80,7 +84,10 @@
   ;; TODO:
   ;; - return 0.0 for an empty collection
   ;; - otherwise calculate the arithmetic mean of :score values
-  nil)
+  (if (empty? student-coll)
+    0.0
+    (double (/ (reduce + (map :score student-coll))
+               (count student-coll)))))
 
 (defn build-report [student-coll minimum]
   ;; TODO: return
@@ -90,7 +97,11 @@
   ;;  :eligible-names [...]}
   ;;
   ;; Keep this function pure: no println, slurp, spit, time, randomness, etc.
-  nil)
+  (let [active-students (filter :active student-coll)]
+    {:minimum-score minimum
+     :active-count (count active-students)
+     :average-active-score (average-score active-students)
+     :eligible-names (eligible-names student-coll minimum)}))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 6 — laziness experiment
@@ -122,7 +133,10 @@
 (defn print-report! [report]
   ;; TODO: print the values from the report map.
   ;; Keep all printing here rather than in the pure transformation functions.
-  nil)
+  (println "Minimum score:" (:minimum-score report))
+  (println "Active students:" (:active-count report))
+  (println "Average active score:" (:average-active-score report))
+  (println "Eligible names:" (str/join ", " (:eligible-names report))))
 
 ;; -----------------------------------------------------------------------------
 ;; Part 8 — integration examples

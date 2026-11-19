@@ -1,0 +1,110 @@
+===== Core fixture =====
+--- Q1a: computing titles in stable order ---
+title     
+----------
+Algorithms
+Databases 
+--- Q1b: distinct categories ---
+category  
+----------
+computing 
+literature
+--- Q2: active loans with member name and book title ---
+member  book      
+------  ----------
+Ada     Algorithms
+Ada     Poems     
+Ben     Algorithms
+--- Q3: every member with active-loan count (zero included) ---
+member  active_loans
+------  ------------
+Ada     2           
+Ben     1           
+Cara    0           
+--- Q3 bug (do not use): WHERE instead of ON drops Cara ---
+member  active_loans
+------  ------------
+Ada     2           
+Ben     1           
+--- Q4: members with no active loan (NOT EXISTS) ---
+member
+------
+Cara  
+--- Q5: books with at least two active loans ---
+book        active_loans
+----------  ------------
+Algorithms  2           
+--- Extra: every book with active count (zero-match book included) ---
+book        active_loans
+----------  ------------
+Algorithms  2           
+Databases   0           
+Poems       1           
+Stories     0           
+--- Extra: duplicates. Ada appears twice in Q2; DISTINCT / COUNT DISTINCT ---
+member
+------
+Ada   
+Ben   
+join_rows  distinct_members
+---------  ----------------
+3          2               
+ 
+===== Second fixture (adds Dev borrowing Poems, Eve with returned loan) =====
+--- Q1a: computing titles in stable order ---
+title     
+----------
+Algorithms
+Databases 
+--- Q1b: distinct categories ---
+category  
+----------
+computing 
+literature
+--- Q2: active loans with member name and book title ---
+member  book      
+------  ----------
+Ada     Algorithms
+Ada     Poems     
+Ben     Algorithms
+Dev     Poems     
+--- Q3: every member with active-loan count (zero included) ---
+member  active_loans
+------  ------------
+Ada     2           
+Ben     1           
+Cara    0           
+Dev     1           
+Eve     0           
+--- Q3 bug (do not use): WHERE instead of ON drops Cara ---
+member  active_loans
+------  ------------
+Ada     2           
+Ben     1           
+Dev     1           
+--- Q4: members with no active loan (NOT EXISTS) ---
+member
+------
+Cara  
+Eve   
+--- Q5: books with at least two active loans ---
+book        active_loans
+----------  ------------
+Algorithms  2           
+Poems       2           
+--- Extra: every book with active count (zero-match book included) ---
+book        active_loans
+----------  ------------
+Algorithms  2           
+Databases   0           
+Poems       2           
+Stories     0           
+--- Extra: duplicates. Ada appears twice in Q2; DISTINCT / COUNT DISTINCT ---
+member
+------
+Ada   
+Ben   
+Dev   
+join_rows  distinct_members
+---------  ----------------
+4          3             
